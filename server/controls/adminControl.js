@@ -24,7 +24,7 @@ const login=async(req,res)=>{
 
 const viewfarmers=async(req,res)=>{
    try{
-    const users=await userModel.find({role:"farmers"})
+    const users=await userModel.find({role: { $ne: "admin" }})
     res.json(users).status(200)
    }catch(err){
     console.log(err)

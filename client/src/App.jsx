@@ -4,6 +4,8 @@ import UserForm from "./components/register"
 import LoginForm from "./components/login"
 import FarmerHome from "./components/farmer/home"
 import Adminhome from "./components/admin/home"
+import Adminviewusers from "./components/admin/viewuser"
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
  
@@ -15,6 +17,7 @@ function App() {
         <Route path="/login" element={<LoginForm/>}/>
         <Route path="/farmer" element={<FarmerHome/>}/>
         <Route path="/admin" element={<Adminhome/>}/>
+        <Route path="/admin/users" element={<Adminviewusers/>}/>
       </Routes>
     </>
   )
