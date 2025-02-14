@@ -55,7 +55,9 @@ export default function AdminDashboard() {
       </ListItemButton>
 
       
-      <ListItemButton onClick={() => navigate("/admin/profile")}>
+      <ListItemButton onClick={() => {navigate("/")
+        localStorage.clear()
+      }}>
       <Logout sx={{ mr: 2 }} />
         <ListItemText primary="Logout" />
       </ListItemButton>
