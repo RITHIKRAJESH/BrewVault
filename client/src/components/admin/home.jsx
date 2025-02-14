@@ -5,9 +5,9 @@ import {
 } from "@mui/material";
 import { Home, People, ExpandLess, ExpandMore, Menu, Logout, Person, TipsAndUpdates } from "@mui/icons-material";
 import { useNavigate, Routes, Route } from "react-router-dom";
-import ViewUsers from "./viewUser"; // Ensure this component exists
-import Profile from "./profile"; // Ensure this component exists
-import Tips from "./addTips"; // Ensure this component exists
+import ViewUsers from "./viewuser"; 
+import Profile from "./profile";
+import Tips from "./addTips"; 
 
 const drawerWidth = 240;
 
