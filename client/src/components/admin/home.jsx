@@ -3,25 +3,23 @@ import {
   AppBar, Toolbar, Typography, Drawer, List, ListItemText, ListItemButton, 
   Collapse, Box, CssBaseline, IconButton, useMediaQuery, useTheme 
 } from "@mui/material";
-import { Home, People, ExpandLess, ExpandMore, Menu,Logout, Person} from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { Home, People, ExpandLess, ExpandMore, Menu, Logout, Person, TipsAndUpdates } from "@mui/icons-material";
+import { useNavigate, Routes, Route } from "react-router-dom";
+import ViewUsers from "./viewUser"; // Ensure this component exists
+import Profile from "./profile"; // Ensure this component exists
+import Tips from "./addTips"; // Ensure this component exists
 
 const drawerWidth = 240;
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md")); // Detect mobile screen
+  const isMobile = useMediaQuery(theme.breakpoints.down("md")); 
   const [openUsersMenu, setOpenUsersMenu] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false); // State for mobile drawer
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  const handleUsersClick = () => {
-    setOpenUsersMenu(!openUsersMenu);
-  };
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+  const handleUsersClick = () => setOpenUsersMenu(!openUsersMenu);
+  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
   // Sidebar Drawer Component
   const drawer = (
@@ -31,7 +29,6 @@ export default function AdminDashboard() {
         <ListItemText primary="Dashboard" />
       </ListItemButton>
 
-      {/* Users Menu */}
       <ListItemButton onClick={handleUsersClick}>
         <People sx={{ mr: 2 }} />
         <ListItemText primary="Users" />
@@ -48,17 +45,22 @@ export default function AdminDashboard() {
           </ListItemButton>
         </List>
       </Collapse>
+    
+      <ListItemButton onClick={() => navigate("/admin/tips")}>
+        <TipsAndUpdates sx={{ mr: 2 }} />
+        <ListItemText primary="Tips" />
+      </ListItemButton>
 
       <ListItemButton onClick={() => navigate("/admin/profile")}>
         <Person sx={{ mr: 2 }} />
         <ListItemText primary="Profile" />
       </ListItemButton>
 
-      
-      <ListItemButton onClick={() => {navigate("/")
-        localStorage.clear()
+      <ListItemButton onClick={() => {
+        navigate("/");
+        localStorage.clear();
       }}>
-      <Logout sx={{ mr: 2 }} />
+        <Logout sx={{ mr: 2 }} />
         <ListItemText primary="Logout" />
       </ListItemButton>
     </List>
@@ -68,7 +70,7 @@ export default function AdminDashboard() {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
 
-      {/* AppBar with Menu Icon for Mobile */}
+      {/* AppBar */}
       <AppBar position="fixed" sx={{ width: isMobile ? "100%" : `calc(100% - ${drawerWidth}px)`, ml: isMobile ? 0 : `${drawerWidth}px` }}>
         <Toolbar>
           {isMobile && (
@@ -82,8 +84,7 @@ export default function AdminDashboard() {
         </Toolbar>
       </AppBar>
 
-      {/* Responsive Sidebar Drawer */}
-      {/* Mobile Drawer (Temporary) */}
+      {/* Mobile Drawer */}
       <Drawer
         variant="temporary"
         open={mobileOpen}
@@ -96,7 +97,7 @@ export default function AdminDashboard() {
         {drawer}
       </Drawer>
 
-      {/* Desktop Drawer (Permanent) */}
+      {/* Desktop Drawer */}
       <Drawer
         variant="permanent"
         sx={{
@@ -108,21 +109,25 @@ export default function AdminDashboard() {
         {drawer}
       </Drawer>
 
-      {/* Main Content Area (Shifts Correctly) */}
+      {/* Main Content (Dynamic) */}
       <Box 
         component="main" 
         sx={{ 
           flexGrow: 1, 
           p: 3, 
-          ml: isMobile ? 0 : `${drawerWidth}px`, // Adjust margin for sidebar
-          transition: "margin 0.3s ease-in-out", // Smooth transition
+          ml: isMobile ? 0 : `${drawerWidth}px`, 
+          transition: "margin 0.3s ease-in-out", 
         }}
       >
-        <Toolbar /> {/* Keeps spacing below AppBar */}
-        <Typography variant="h4">Welcome, Admin!</Typography>
-        <Typography variant="body1" sx={{ mt: 2 }}>
-          Manage users, settings, and other administrative tasks from this dashboard.
-        </Typography>
+        <Toolbar />
+
+        {/* ROUTES FOR DYNAMIC CONTENT */}
+        <Routes>
+          <Route path="/admin/users" element={<ViewUsers />} />
+          <Route path="/admin/profile" element={<Profile />} />
+          <Route path="/admin/tips" element={<Tips />} />
+          {/* Add more routes as needed */}
+        </Routes>
       </Box>
     </Box>
   );

@@ -1,6 +1,6 @@
 const { model } = require('mongoose')
 const userModel=require('../models/userModel')
-
+const tipsModel=require('../models/tipsModel')
 
 const login=async(req,res)=>{
     try{
@@ -31,4 +31,30 @@ const viewfarmers=async(req,res)=>{
    }
 }
 
-module.exports={login,viewfarmers}
+
+const addTips=(req,res)=>{
+    try{
+        const{title,url}=req.body
+        console.log(req.body)
+        const tips=new tipsModel({
+            title,url
+        })
+        tips.save()
+        res.json("Tips added successfully")
+    }catch(err){
+        console.log(err)
+    }
+}
+
+
+const viewtips=async(req,res)=>{
+   try{
+    const tips=await tipsModel.find()
+    res.json(tips)
+   }catch(err){
+    console.log(err)
+   }
+}
+
+
+module.exports={login,viewfarmers,addTips,viewtips}

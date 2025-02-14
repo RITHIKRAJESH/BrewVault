@@ -66,7 +66,6 @@ const userProfile=async(req,res)=>{
     try{
         const id=req.headers._id
         const user=await userModel.findOne({_id:id})
-        console.log(user)
         res.json(user).status(200)
        
     }catch(err)

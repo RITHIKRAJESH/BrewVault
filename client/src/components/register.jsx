@@ -8,8 +8,8 @@ const UserForm = () => {
     username: "",
     email: "",
     password: "",
-    role: "", // Store the user type (wholesaler, retailer, or farmer)
-    shopOrFarmName: "", // For storing shop or farm name
+    role: "",
+    shopOrFarmName: "", 
   });
 
   const navigate = useNavigate();
@@ -73,7 +73,7 @@ const UserForm = () => {
             <InputLabel>User Type</InputLabel>
             <Select
               label="User Type"
-              name="userType"
+              name="role"
               value={formData.role}
               onChange={handleChange}
             >
