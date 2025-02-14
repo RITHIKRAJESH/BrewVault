@@ -8,6 +8,8 @@ import Adminviewusers from "./components/admin/viewuser"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import WholesaleDashboard from "./components/wholesaler/home"
 import Profile from "./components/farmer/profile"
+import AdminProfile from "./components/admin/profile"
+import WholesaleProfile from "./components/wholesaler/profile"
 
 function App() {
  
@@ -24,8 +26,10 @@ function App() {
         {/* Admin */}
         <Route path="/admin" element={<Adminhome/>}/>
         <Route path="/admin/users" element={<Adminviewusers/>}/>
+        <Route path="/admin/profile" element={<AdminProfile/>}/>
         {/* Wholesaler */}
         <Route path="/wholesale" element={<WholesaleDashboard/>}/>
+        <Route path="/wholesale/profile" element={<WholesaleProfile/>}/>
         
 
       </Routes>
