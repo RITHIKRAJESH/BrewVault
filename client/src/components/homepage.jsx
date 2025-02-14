@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { Container, Navbar, Nav, Row, Col, Form, Button } from "react-bootstrap";
 import Carousel from "react-bootstrap/Carousel";
-import img1 from '../assets/akha-farmers.jpg'
-import img2 from '../assets/beautiful-natural-landscape.jpg'
-import img3 from '../assets/tree-with-small-green-red-berries-it.jpg'
+import img1 from '../assets/akha-farmers.webp'
+import img2 from '../assets/beautiful-natural-landscape.webp'
+import img3 from '../assets/tree-with-small-green-red-berries-it.webp'
 export default function Homepage() {
   
   return (
