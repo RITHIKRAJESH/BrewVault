@@ -1,9 +1,11 @@
+import { Link } from "react-router-dom";
 import { Container, Navbar, Nav, Row, Col, Form, Button } from "react-bootstrap";
 import Carousel from "react-bootstrap/Carousel";
 import img1 from '../assets/akha-farmers.jpg'
 import img2 from '../assets/beautiful-natural-landscape.jpg'
 import img3 from '../assets/tree-with-small-green-red-berries-it.jpg'
 export default function Homepage() {
+  
   return (
     <>
       {/* Navigation Bar */}
@@ -16,8 +18,8 @@ export default function Homepage() {
               <Nav.Link href="#home">Home</Nav.Link>
               <Nav.Link href="#about">About</Nav.Link>
               <Nav.Link href="#contact">Contact</Nav.Link>
-              <Nav.Link href="/register">Register</Nav.Link>
-              <Nav.Link href="/login">Login</Nav.Link>
+              <Nav.Link as={Link} to="/register">Register</Nav.Link>
+              <Nav.Link as={Link} to="/login">Login</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
