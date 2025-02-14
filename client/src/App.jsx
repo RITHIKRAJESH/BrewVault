@@ -1,6 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import AddProductDetails from "./components/wholesaler/addproducts";
+import Viewproducts from "./components/farmer/viewproducts";
 
 // Lazy Load Components
 const Homepage = lazy(() => import("./components/homepage"));
@@ -32,7 +34,7 @@ function App() {
         {/* Farmer */}
         <Route path="/farmer" element={<FarmerHome />} />
         <Route path="/farmer/profile" element={<Profile />} />
-
+        <Route path="/farmer/market"element={<Viewproducts/>}/> 
         {/* Admin */}
         <Route path="/admin" element={<Adminhome />} />
         <Route path="/admin/users" element={<Adminviewusers />} />
@@ -42,7 +44,8 @@ function App() {
         {/* Wholesaler */}
         <Route path="/wholesale" element={<WholesaleDashboard />} />
         <Route path="/wholesale/profile" element={<WholesaleProfile />} />
-      </Routes>
+        <Route path="/wholesale/products" element={<AddProductDetails/>}/>
+              </Routes>
     </Suspense>
   );
 }

@@ -43,9 +43,9 @@ export default function FarmerDashboard() {
   };
   
   const menuItems = [
-    { text: "View Market", path: "/market", icon: <StorefrontIcon /> },
-    { text: "My Products", path: "/my-products", icon: <ShoppingCartIcon /> },
-    { text: "Order History", path: "/order-history", icon: <HistoryIcon /> },
+    { text: "View Market", path: "/farmer/market", icon: <StorefrontIcon /> },
+    { text: "My Products", path: "/farmer/my-products", icon: <ShoppingCartIcon /> },
+    { text: "Order History", path: "/farmer/order-history", icon: <HistoryIcon /> },
     { text: "Payments", path: "/payments", icon: <PaymentIcon /> },
     { text: "Tips", path: "/tips", icon: <TipsAndUpdatesIcon /> },
     { text: "Profile", path: "/farmer/profile", icon: <AccountCircleIcon /> },

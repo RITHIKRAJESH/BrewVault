@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, CircularProgress, Box } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, CircularProgress, Box,Button } from "@mui/material";
 
 export default function AdminViewUsers() {
   const [users, setUsers] = useState([]);
@@ -23,7 +23,7 @@ export default function AdminViewUsers() {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" sx={{ mb: 3 }}>
-        Farmer Users
+       NetWork Users !
       </Typography>
 
       {loading ? (
@@ -38,6 +38,7 @@ export default function AdminViewUsers() {
                 <TableCell><strong>Email</strong></TableCell>
                 <TableCell><strong>Role</strong></TableCell>
                 <TableCell><strong>Farm/Shop Name</strong></TableCell>
+                <TableCell><strong>Action</strong></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -48,6 +49,7 @@ export default function AdminViewUsers() {
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{user.role}</TableCell>
                   <TableCell>{user.shopOrFarmName}</TableCell>
+                  <TableCell><Button>Delete</Button></TableCell>
                 </TableRow>
               ))}
             </TableBody>

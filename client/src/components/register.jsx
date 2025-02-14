@@ -84,16 +84,16 @@ const UserForm = () => {
             <FormHelperText>Select your type</FormHelperText>
           </FormControl>
 
-          {formData.userType && (
-            <TextField
-              fullWidth
-              label={formData.userType === "farmer" ? "Farm Name" : "Shop Name"}
-              name="shopOrFarmName"
-              value={formData.shopOrFarmName}
-              onChange={handleChange}
-              margin="normal"
-            />
-          )}
+          {formData.role && (
+  <TextField
+    fullWidth
+    label={formData.role === "farmer" ? "Farm Name" : "Shop Name"}
+    name="shopOrFarmName"
+    value={formData.shopOrFarmName}
+    onChange={handleChange}
+    margin="normal"
+  />
+)}
 
           <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
             Submit
