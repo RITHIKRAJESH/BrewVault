@@ -74,7 +74,7 @@ const UserForm = () => {
             <Select
               label="User Type"
               name="userType"
-              value={formData.userType}
+              value={formData.role}
               onChange={handleChange}
             >
               <MenuItem value="wholesaler">Wholesaler</MenuItem>
