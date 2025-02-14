@@ -1,6 +1,6 @@
 const userModel=require('../models/userModel')
 const argon2 = require('argon2')
-
+const jwt=require("jsonwebtoken")
 const registerUser = async (req, res) => {
     try {
         const { username, email, password, role, shopOrFarmName } = req.body;
@@ -22,7 +22,7 @@ const registerUser = async (req, res) => {
             role,
             shopOrFarmName
         });
-
+       
         await newUser.save();
         return res.json({ msg: "User Registered Successfully", status: 200 });
 
@@ -44,8 +44,13 @@ const login = async (req, res) => {
 
         // Verify password using Argon2
         const isPasswordValid = await argon2.verify(user.password, password);
+        const token = jwt.sign({payload:user}, 
+            'jwt-key-factor',
+            { expiresIn: "7d" } 
+        );
+        console.log("token",token)
         if (isPasswordValid) {
-            return res.json({ msg: "Login Successful", status: 200, role: user.role });
+            return res.json({ msg: "Login Successful", status: 200,token:token  });
         } else {
             return res.json({ msg: "Incorrect Password", status: 500 });
         }
@@ -56,4 +61,18 @@ const login = async (req, res) => {
     }
 };
 
-module.exports={registerUser,login}
+
+const userProfile=async(req,res)=>{
+    try{
+        const id=req.headers._id
+        const user=await userModel.findOne({_id:id})
+        console.log(user)
+        res.json(user).status(200)
+       
+    }catch(err)
+    {
+        res.json(err)
+    }
+}
+
+module.exports={registerUser,login,userProfile}

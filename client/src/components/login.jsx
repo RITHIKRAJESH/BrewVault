@@ -2,7 +2,7 @@ import { useState } from "react";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import {jwtDecode} from 'jwt-decode'
 const LoginForm = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -20,13 +20,19 @@ const LoginForm = () => {
     axios.post(`${url}/user/login`,formData)
     .then((res=>{
        alert(res.data.msg)
-       console.log(res.data.role,res.data.status)
-        if(res.data.role=="farmer" && res.data.status==200){
+       const token=res.data.token
+      
+       const decoded=jwtDecode(token)
+       localStorage.setItem("token",token)
+        if(decoded.payload.role=="farmer" && res.data.status==200){
             navigate("/farmer")
         }
-        else if(res.data.status==200 && res.data.role=="admin"){
+        else if(res.data.status==200 && decoded.payload.role=="admin"){
             navigate("/admin")
         }
+        else if(res.data.status==200 && decoded.payload.role=="wholesaler"){
+          navigate("/wholesale")
+      }
     }))
   };
 

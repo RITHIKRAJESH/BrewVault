@@ -37,15 +37,21 @@ export default function FarmerDashboard() {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleLogout = () => {
+    localStorage.clear(); 
+    navigate("/"); // Redirect user to homepage or login page
+  };
+  
   const menuItems = [
     { text: "View Market", path: "/market", icon: <StorefrontIcon /> },
     { text: "My Products", path: "/my-products", icon: <ShoppingCartIcon /> },
     { text: "Order History", path: "/order-history", icon: <HistoryIcon /> },
     { text: "Payments", path: "/payments", icon: <PaymentIcon /> },
     { text: "Tips", path: "/tips", icon: <TipsAndUpdatesIcon /> },
-    { text: "Profile", path: "/profile", icon: <AccountCircleIcon /> },
-    { text: "Logout", path: "/logout", icon: <ExitToAppIcon /> },
+    { text: "Profile", path: "/farmer/profile", icon: <AccountCircleIcon /> },
+    { text: "Logout", path: "/", icon: <ExitToAppIcon />, onClick: handleLogout },
   ];
+  
 
   const drawerContent = (
     <Box sx={{ width: drawerWidth }}>

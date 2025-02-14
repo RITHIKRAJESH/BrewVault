@@ -3,7 +3,7 @@ import {
   AppBar, Toolbar, Typography, Drawer, List, ListItemText, ListItemButton, 
   Collapse, Box, CssBaseline, IconButton, useMediaQuery, useTheme 
 } from "@mui/material";
-import { Home, People, ExpandLess, ExpandMore, Menu } from "@mui/icons-material";
+import { Home, People, ExpandLess, ExpandMore, Menu,Logout, Person} from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -50,7 +50,14 @@ export default function AdminDashboard() {
       </Collapse>
 
       <ListItemButton onClick={() => navigate("/admin/profile")}>
+        <Person sx={{ mr: 2 }} />
         <ListItemText primary="Profile" />
+      </ListItemButton>
+
+      
+      <ListItemButton onClick={() => navigate("/admin/profile")}>
+      <Logout sx={{ mr: 2 }} />
+        <ListItemText primary="Logout" />
       </ListItemButton>
     </List>
   );
