@@ -4,8 +4,11 @@ import Carousel from "react-bootstrap/Carousel";
 import img1 from '../assets/akha-farmers.webp'
 import img2 from '../assets/beautiful-natural-landscape.webp'
 import img3 from '../assets/tree-with-small-green-red-berries-it.webp'
+import video from '../assets/7125322-uhd_3840_2160_25fps.mp4'
+import video1 from '../assets/BB_2c2decb2-35e1-4301-873c-fb83f14c1ac2.webm'
+import video3 from  '../assets/BB_834a5845-68f5-40e7-b8fe-49815427ba34.mov'
+
 export default function Homepage() {
-  
   return (
     <>
       {/* Navigation Bar */}
@@ -55,7 +58,35 @@ export default function Homepage() {
         <Row className="text-center">
           <Col>
             <h2>About Us</h2>
-            <p>We are a premium coffee shop dedicated to bringing you the best coffee experience. Our beans are carefully selected to ensure quality and taste.</p>
+            <p style={{textAlign:"justify"}}>Coffee plantation and farming involve the cultivation of coffee plants, primarily in tropical regions with rich soil, adequate rainfall, and high altitudes. Farmers grow coffee trees, which take several years to mature and produce cherries containing coffee beans. The harvesting process can be manual or mechanical, depending on the terrain and farm size. After harvesting, the beans go through processing, drying, and roasting before reaching consumers. Sustainable coffee farming practices help preserve the environment and ensure better livelihoods for farmers, making coffee production a vital part of many economies worldwide.</p>
+          </Col>
+        </Row>
+      </Container>
+
+      {/* Testimonial Section */}
+      <Container id="testimonials" className="mt-5 text-center">
+        <h2>What Our Customers Say</h2>
+        <Row className="mt-4">
+          <Col md={4}>
+            <video controls className="w-100 rounded shadow">
+              <source src={video} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <p className="mt-2">"Best coffee I've ever had!" - Alex</p>
+          </Col>
+          <Col md={4}>
+            <video controls className="w-100 rounded shadow">
+              <source src={video1} type="video/webm" />
+              Your browser does not support the video tag.
+            </video>
+            <p className="mt-2">"A cozy place to relax and work." - Jamie</p>
+          </Col>
+          <Col md={4}>
+            <video controls className="w-100 rounded shadow">
+              <source src={video3} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <p className="mt-2">"Amazing quality and great service!" - Taylor</p>
           </Col>
         </Row>
       </Container>
