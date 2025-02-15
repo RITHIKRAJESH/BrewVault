@@ -47,7 +47,7 @@ export default function FarmerDashboard() {
     { text: "My Products", path: "/farmer/my-products", icon: <ShoppingCartIcon /> },
     { text: "Order History", path: "/farmer/order-history", icon: <HistoryIcon /> },
     { text: "Payments", path: "/payments", icon: <PaymentIcon /> },
-    { text: "Tips", path: "/tips", icon: <TipsAndUpdatesIcon /> },
+    { text: "Tips", path: "/farmer/viewtips", icon: <TipsAndUpdatesIcon /> },
     { text: "Profile", path: "/farmer/profile", icon: <AccountCircleIcon /> },
     { text: "Logout", path: "/", icon: <ExitToAppIcon />, onClick: handleLogout },
   ];

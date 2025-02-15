@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, CircularProgress, Box,Button } from "@mui/material";
+import {useNavigate} from 'react-router-dom'
 
 export default function AdminViewUsers() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate()
   useEffect(() => {
     const url=import.meta.env.VITE_BASE_URL 
     console.log(url)
@@ -25,7 +26,7 @@ export default function AdminViewUsers() {
       <Typography variant="h4" sx={{ mb: 3 }}>
        NetWork Users !
       </Typography>
-
+      <Button onClick={()=>navigate('/admin')}>BACK TO DASH BOARD</Button>
       {loading ? (
         <CircularProgress />
       ) : (

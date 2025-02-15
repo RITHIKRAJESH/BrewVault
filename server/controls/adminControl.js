@@ -56,5 +56,16 @@ const viewtips=async(req,res)=>{
    }
 }
 
+const deleteTips=async(req,res)=>{
+    try{
+        const id=req.headers.id
+        await tipsModel.deleteOne({_id:id})
+        res.json("Data deleted successfully")
+    }
+    catch(err){
+        console.log(err)
+    }
+}
 
-module.exports={login,viewfarmers,addTips,viewtips}
+
+module.exports={login,viewfarmers,addTips,viewtips,deleteTips}

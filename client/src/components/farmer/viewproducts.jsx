@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Card, CardMedia, CardContent, Typography, Button, TextField, Grid, Container, Box } from "@mui/material";
+import { Card, CardMedia, CardContent, Typography, Button, TextField, Grid, Container} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function ViewProducts() {
   const [products, setViewProducts] = useState([]);
   const [quantities, setQuantities] = useState({});
-
+  const navigate = useNavigate()
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BASE_URL}/wholesale/viewproduct`)
@@ -27,6 +28,7 @@ export default function ViewProducts() {
 
   return (
     <Container sx={{ mt: 4 }}>
+       <Button onClick={()=>navigate('/farmer')}>BACK TO DASH BOARD </Button>
       <Grid container spacing={3}>
         {products.map((product) => (
           <Grid item key={product._id} xs={12} sm={6} md={4}>

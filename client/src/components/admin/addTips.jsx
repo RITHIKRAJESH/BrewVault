@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
+import {useNavigate} from 'react-router-dom';
 import axios from "axios";
 import { 
   Container, TextField, Button, Typography, Box, Alert, Grid, 
-  Card, CardContent, CardMedia, Fab, Collapse 
+  Card, CardContent, CardMedia, Fab, Collapse, IconButton
 } from "@mui/material";
-import { Add as AddIcon } from "@mui/icons-material";
+import { Add as AddIcon, Delete as DeleteIcon } from "@mui/icons-material";
 
 export default function AddTips() {
   const [tip, setTip] = useState({ title: "", url: "" });
   const [tips, setTips] = useState([]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [showForm, setShowForm] = useState(false); // State to toggle form visibility
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     fetchTips();
@@ -30,6 +31,15 @@ export default function AddTips() {
     setTip({ ...tip, [e.target.name]: e.target.value });
   };
 
+  const deleteTips = async (id) => {
+    try {
+      await axios.delete(`${import.meta.env.VITE_BASE_URL}/admin/deletetips`,{headers:{id:id}});
+      setTips(tips.filter((tipItem) => tipItem._id !== id));
+    } catch (err) {
+      console.error("Error deleting tip:", err);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -45,11 +55,13 @@ export default function AddTips() {
       setSuccess("Tip added successfully!");
       setTip({ title: "", url: "" });
       fetchTips();
-      setShowForm(false); // Hide form after successful submission
+      setShowForm(false); 
     } catch (err) {
-      setError("Server error. Please try again later.");
+      setError("Server error. Please try again later.",err);
     }
   };
+
+  const navigate = useNavigate()
 
   // Function to check if the URL is a YouTube link and convert it to an embed URL
   const getEmbedUrl = (url) => {
@@ -93,7 +105,7 @@ export default function AddTips() {
       <Typography variant="h5" sx={{ textAlign: "center", mb: 3, fontWeight: "bold" }}>
         Tips & Guidance
       </Typography>
-
+      <Button onClick={()=>navigate('/admin')}>BACK TO DASH BOARD</Button>
       <Grid container spacing={3}>
         {tips.length > 0 ? (
           tips.map((tipItem) => (
@@ -110,6 +122,9 @@ export default function AddTips() {
                   <Typography variant="h6" sx={{ fontWeight: "bold" }}>
                     {tipItem.title}
                   </Typography>
+                  <IconButton color="error" onClick={() => deleteTips(tipItem._id)}>
+                    <DeleteIcon />
+                  </IconButton>
                 </CardContent>
               </Card>
             </Grid>
