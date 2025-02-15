@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Container, Navbar, Nav, Row, Col, Form, Button } from "react-bootstrap";
+import { CoffeeMakerRounded ,EnergySavingsLeaf } from "@mui/icons-material";
 import Carousel from "react-bootstrap/Carousel";
 import img1 from '../assets/akha-farmers.webp'
 import img2 from '../assets/beautiful-natural-landscape.webp'
@@ -12,17 +13,17 @@ export default function Homepage() {
   return (
     <>
       {/* Navigation Bar */}
-      <Navbar bg="dark" variant="dark" expand="lg">
+      <Navbar style={{backgroundColor:"#756c4a"}} expand="lg">
         <Container>
-          <Navbar.Brand href="/">Coffee Shop</Navbar.Brand>
+          <Navbar.Brand href="/" style={{color:"white"}}>BrewVault <EnergySavingsLeaf/></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#about">About</Nav.Link>
-              <Nav.Link href="#contact">Contact</Nav.Link>
-              <Nav.Link as={Link} to="/register">Register</Nav.Link>
-              <Nav.Link as={Link} to="/login">Login</Nav.Link>
+            <Nav className="ms-auto" >
+              <Nav.Link href="#home" style={{color:"white"}}>Home</Nav.Link>
+              <Nav.Link href="#about" style={{color:"white"}}>About</Nav.Link>
+              <Nav.Link href="#contact" style={{color:"white"}} >Contact</Nav.Link>
+              <Nav.Link as={Link} to="/register" style={{color:"white"}}>Register</Nav.Link>
+              <Nav.Link as={Link} to="/login" style={{color:"white"}}>Login</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -30,28 +31,44 @@ export default function Homepage() {
 
       {/* Bootstrap Carousel */}
       <Carousel>
-        <Carousel.Item>
-          <img className="d-block w-100" src={img1} alt="First slide" />
-          <Carousel.Caption>
-            <h3>Freshly Brewed Coffee</h3>
-            <p>Enjoy the best coffee in town!</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img className="d-block w-100" src={img2} alt="Second slide" />
-          <Carousel.Caption>
-            <h3>Relaxing Atmosphere</h3>
-            <p>Perfect place to unwind and work.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img className="d-block w-100" src={img3} alt="Third slide" />
-          <Carousel.Caption>
-            <h3>Quality Beans</h3>
-            <p>We source the finest beans from around the world.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-      </Carousel>
+  <Carousel.Item>
+    <img
+      className="d-block w-100"
+      src={img1}
+      alt="First slide"
+      style={{ maxHeight: "90vh", objectFit: "cover" }}
+    />
+    <Carousel.Caption>
+      <h3>Freshly Brewed Coffee</h3>
+      <p>Enjoy the best coffee in town!</p>
+    </Carousel.Caption>
+  </Carousel.Item>
+  <Carousel.Item>
+    <img
+      className="d-block w-100"
+      src={img2}
+      alt="Second slide"
+      style={{ maxHeight: "90vh", objectFit: "cover" }}
+    />
+    <Carousel.Caption>
+      <h3>Relaxing Atmosphere</h3>
+      <p>Perfect place to unwind and work.</p>
+    </Carousel.Caption>
+  </Carousel.Item>
+  <Carousel.Item>
+    <img
+      className="d-block w-100"
+      src={img3}
+      alt="Third slide"
+      style={{ maxHeight: "90vh", objectFit: "cover" }}
+    />
+    <Carousel.Caption>
+      <h3>Quality Beans</h3>
+      <p>We source the finest beans from around the world.</p>
+    </Carousel.Caption>
+  </Carousel.Item>
+</Carousel>
+
 
       {/* About Section */}
       <Container id="about" className="mt-5">
@@ -118,7 +135,7 @@ export default function Homepage() {
       </Container>
 
       {/* Footer */}
-      <footer className="bg-dark text-white text-center py-3 mt-5">
+      <footer className=" text-white text-center py-3 mt-5" style={{backgroundColor:"#756c4a"}}>
         <Container>
           <p>&copy; {new Date().getFullYear()} Coffee Shop. All Rights Reserved.</p>
         </Container>
