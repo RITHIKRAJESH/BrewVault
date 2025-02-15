@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Container, Navbar, Nav, Row, Col, Form, Button } from "react-bootstrap";
-import { CoffeeMakerRounded ,EnergySavingsLeaf } from "@mui/icons-material";
+import { EnergySavingsLeaf } from "@mui/icons-material";
 import Carousel from "react-bootstrap/Carousel";
 import img1 from '../assets/akha-farmers.webp'
 import img2 from '../assets/beautiful-natural-landscape.webp'
@@ -13,7 +13,7 @@ export default function Homepage() {
   return (
     <>
       {/* Navigation Bar */}
-      <Navbar style={{backgroundColor:"#756c4a"}} expand="lg">
+      <Navbar style={{ backgroundImage: "linear-gradient(45deg, #052307, green)" }} expand="lg">
         <Container>
           <Navbar.Brand href="/" style={{color:"white"}}>BrewVault <EnergySavingsLeaf/></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -135,9 +135,9 @@ export default function Homepage() {
       </Container>
 
       {/* Footer */}
-      <footer className=" text-white text-center py-3 mt-5" style={{backgroundColor:"#756c4a"}}>
+      <footer className=" text-white text-center py-3 mt-5" style={{backgroundColor:" #052307"}}>
         <Container>
-          <p>&copy; {new Date().getFullYear()} Coffee Shop. All Rights Reserved.</p>
+          <p>&copy; {new Date().getFullYear()} BrewVault. All Rights Reserved.</p>
         </Container>
       </footer>
     </>

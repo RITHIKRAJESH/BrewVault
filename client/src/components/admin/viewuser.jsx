@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, CircularProgress, Box,Button } from "@mui/material";
-import {useNavigate} from 'react-router-dom'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, CircularProgress, Box, Button, TablePagination } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminViewUsers() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate()
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const url=import.meta.env.VITE_BASE_URL 
-    console.log(url)
-    axios.get(`${url}/admin/viewfarmer`)
+    const url = import.meta.env.VITE_BASE_URL;
+    console.log(url);
+    axios
+      .get(`${url}/admin/viewfarmer`)
       .then((response) => {
         setUsers(response.data);
         setLoading(false);
@@ -21,41 +25,61 @@ export default function AdminViewUsers() {
       });
   }, []);
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" sx={{ mb: 3 }}>
-       NetWork Users !
+        NetWork Users!
       </Typography>
-      <Button onClick={()=>navigate('/admin')}>BACK TO DASH BOARD</Button>
+      <Button onClick={() => navigate("/admin")}>BACK TO DASH BOARD</Button>
       {loading ? (
         <CircularProgress />
       ) : (
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead sx={{ backgroundColor: "#f5f5f5" }}>
-              <TableRow>
-                <TableCell><strong>ID</strong></TableCell>
-                <TableCell><strong>Name</strong></TableCell>
-                <TableCell><strong>Email</strong></TableCell>
-                <TableCell><strong>Role</strong></TableCell>
-                <TableCell><strong>Farm/Shop Name</strong></TableCell>
-                <TableCell><strong>Action</strong></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {users.map((user, index) => (
-                <TableRow key={index}>
-                  <TableCell>{user._id}</TableCell>
-                  <TableCell>{user.username}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.role}</TableCell>
-                  <TableCell>{user.shopOrFarmName}</TableCell>
-                  <TableCell><Button>Delete</Button></TableCell>
+        <>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead sx={{ backgroundColor: "#f5f5f5" }}>
+                <TableRow>
+                  <TableCell><strong>ID</strong></TableCell>
+                  <TableCell><strong>Name</strong></TableCell>
+                  <TableCell><strong>Email</strong></TableCell>
+                  <TableCell><strong>Role</strong></TableCell>
+                  <TableCell><strong>Farm/Shop Name</strong></TableCell>
+                  <TableCell><strong>Action</strong></TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{user._id}</TableCell>
+                    <TableCell>{user.username}</TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>{user.role}</TableCell>
+                    <TableCell>{user.shopOrFarmName}</TableCell>
+                    <TableCell><Button>Delete</Button></TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={users.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </>
       )}
     </Box>
   );

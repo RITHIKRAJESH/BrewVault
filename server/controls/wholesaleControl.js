@@ -3,7 +3,6 @@ const productModel = require('../models/wholesalerModel');
 const addproduct = async (req, res) => {
     try {
         const { userid, productName, productCategory, date } = req.body;
-        console.log("Request Body:", req.body);
 
         let parsedCategories;
         try {
@@ -12,22 +11,21 @@ const addproduct = async (req, res) => {
             return res.status(400).json({ message: "Invalid productCategory format" });
         }
 
-      
         parsedCategories = parsedCategories.map(cat => ({
             quality: cat.quality,
-            price: Number(cat.price)
+            price: Number(cat.price),
         }));
 
-        const productImage = req.file ? req.file.filename : null;
+        const productImage = req.file ? req.file.path : null; // Cloudinary URL
 
         const newProduct = new productModel({
             userid,
             productName,
-            productCategory:parsedCategories,
+            productCategory: parsedCategories,
             date,
-            productImage
-        })
-        console.log(newProduct)
+            productImage, // Cloudinary Image URL
+        });
+
         await newProduct.save();
 
         res.status(201).json({ message: "Product added successfully!", product: newProduct });
@@ -37,6 +35,7 @@ const addproduct = async (req, res) => {
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
+
 
 
 const viewProducts=async(req,res)=>{

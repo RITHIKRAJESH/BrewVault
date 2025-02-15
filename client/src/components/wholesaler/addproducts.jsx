@@ -127,7 +127,7 @@ export default function AddProductDetails() {
             <CardMedia
   component="img"
   height="180"
-  image={`${import.meta.env.VITE_BASE_URL}/uploads/${prod.productImage}`}
+  image={prod.productImage}
   alt={prod.productName}
 />
 
