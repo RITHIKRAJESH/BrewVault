@@ -27,9 +27,9 @@ export default function WholesaleDashboard() {
         <ListItemButton onClick={() => navigate("/wholesale/vieworders")}>
           <ShoppingCart sx={{ mr: 2 }} /> <ListItemText primary="Farmer Selections" />
         </ListItemButton>
-        <ListItemButton onClick={() => navigate("/wholesale/orders")}>
+        {/* <ListItemButton onClick={() => navigate("/wholesale/orders")}>
           <ShoppingCart sx={{ mr: 2 }} /> <ListItemText primary="Retailer Orders" />
-        </ListItemButton>
+        </ListItemButton> */}
         <ListItemButton onClick={() => navigate("/wholesale/order-history")}>
           <History sx={{ mr: 2 }} /> <ListItemText primary="Order History" />
         </ListItemButton>

@@ -1,5 +1,5 @@
 const express = require("express");
-const { addproduct, viewProductsById, viewProducts, purchaseProduct, viewplacedOrders, updateStatus } = require("../controls/wholesaleControl");
+const { addproduct, viewProductsById, viewProducts, purchaseProduct, viewplacedOrders, updateStatus, deleteProduct, updateProduct } = require("../controls/wholesaleControl");
 const multer = require("multer");
 const { v2: cloudinary } = require("cloudinary");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
@@ -34,4 +34,6 @@ WholesaleRouter.get("/viewproduct", viewProducts);
 WholesaleRouter.post("/productpurchased",purchaseProduct)
 WholesaleRouter.get("/vieworders",viewplacedOrders)
 WholesaleRouter.post("/updatestatus",updateStatus)
+WholesaleRouter.delete("/deleteproduct",deleteProduct)
+WholesaleRouter.put("/updateproduct", updateProduct)
 module.exports = WholesaleRouter;

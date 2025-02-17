@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { 
   AppBar, Toolbar, Typography, Drawer, List, ListItemText, ListItemButton, 
-  Collapse, Box, CssBaseline, IconButton, useMediaQuery, useTheme 
+  Collapse, Box, CssBaseline, IconButton, useMediaQuery, useTheme, Grid, Paper 
 } from "@mui/material";
-import { Home, People, ExpandLess, ExpandMore, Menu, Logout, Person, TipsAndUpdates } from "@mui/icons-material";
+import { Home, People, ExpandLess, ExpandMore, Menu, Logout, Person, TipsAndUpdates, ShoppingCart } from "@mui/icons-material";
 import { useNavigate, Routes, Route } from "react-router-dom";
 import ViewUsers from "./viewuser"; 
 import Profile from "./profile";
 import Tips from "./addTips"; 
+import axios from "axios";
 
 const drawerWidth = 240;
 
@@ -17,7 +18,13 @@ export default function AdminDashboard() {
   const isMobile = useMediaQuery(theme.breakpoints.down("md")); 
   const [openUsersMenu, setOpenUsersMenu] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [count, setCount] = useState([]);
 
+  useEffect(() => {
+    axios.get(`${import.meta.env.VITE_BASE_URL}/admin/countuser`)
+      .then((res) => setCount(res.data))
+      .catch((err) => console.error("Error fetching counts:", err));
+  }, []);
   const handleUsersClick = () => setOpenUsersMenu(!openUsersMenu);
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
@@ -40,12 +47,12 @@ export default function AdminDashboard() {
           <ListItemButton onClick={() => navigate("/admin/users")}>
             <ListItemText primary="All Users" />
           </ListItemButton>
-          <ListItemButton onClick={() => navigate("/admin/verifiedusers")}>
+          {/* <ListItemButton onClick={() => navigate("/admin/verifiedusers")}>
             <ListItemText primary="Verified Users" />
-          </ListItemButton>
+          </ListItemButton> */}
         </List>
       </Collapse>
-    
+
       <ListItemButton onClick={() => navigate("/admin/tips")}>
         <TipsAndUpdates sx={{ mr: 2 }} />
         <ListItemText primary="Tips" />
@@ -109,7 +116,7 @@ export default function AdminDashboard() {
         {drawer}
       </Drawer>
 
-      {/* Main Content (Dynamic) */}
+      {/* Main Content */}
       <Box 
         component="main" 
         sx={{ 
@@ -120,6 +127,36 @@ export default function AdminDashboard() {
         }}
       >
         <Toolbar />
+
+        {/* Dashboard Stats */}
+        <Grid container spacing={3}>
+          {/* Users Count */}
+          <Grid item xs={12} sm={6} md={4}>
+            <Paper elevation={3} sx={{ p: 3, textAlign: "center", bgcolor: "primary.light" }}>
+              <People sx={{ fontSize: 40, color: "primary.main" }} />
+              <Typography variant="h6">Users</Typography>
+              <Typography variant="h4">{count.users}</Typography>
+            </Paper>
+          </Grid>
+
+          {/* Products Count */}
+          <Grid item xs={12} sm={6} md={4}>
+            <Paper elevation={3} sx={{ p: 3, textAlign: "center", bgcolor: "secondary.light" }}>
+              <ShoppingCart sx={{ fontSize: 40, color: "secondary.main" }} />
+              <Typography variant="h6">Products</Typography>
+              <Typography variant="h4">{count.products}</Typography>
+            </Paper>
+          </Grid>
+
+          {/* Orders Count */}
+          <Grid item xs={12} sm={6} md={4}>
+            <Paper elevation={3} sx={{ p: 3, textAlign: "center", bgcolor: "success.light" }}>
+              <TipsAndUpdates sx={{ fontSize: 40, color: "success.main" }} />
+              <Typography variant="h6">Orders</Typography>
+              <Typography variant="h4">{count.orders}</Typography>
+            </Paper>
+          </Grid>
+        </Grid>
 
         {/* ROUTES FOR DYNAMIC CONTENT */}
         <Routes>

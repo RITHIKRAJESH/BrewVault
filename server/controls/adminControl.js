@@ -1,7 +1,7 @@
 const { model } = require('mongoose')
 const userModel=require('../models/userModel')
 const tipsModel=require('../models/tipsModel')
-
+const productModel=require('../models/productModel')
 const login=async(req,res)=>{
     try{
         const {email,password}=req.body
@@ -68,4 +68,31 @@ const deleteTips=async(req,res)=>{
 }
 
 
-module.exports={login,viewfarmers,addTips,viewtips,deleteTips}
+const viewCount = async (req, res) => {
+    try {
+      const userCount = await userModel.countDocuments();
+      const productCount = await productModel.countDocuments();
+      const orderCount = await tipsModel.countDocuments();
+  
+      res.status(200).json({
+        users: userCount,
+        products: productCount,
+        orders: orderCount,
+      });
+    } catch (err) {
+      console.error("Error fetching counts:", err);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  };
+  
+  const deleteUsers=async(req,res)=>{
+    try{
+        const id=req.headers._id
+        await userModel.deleteOne({_id:id})
+        res.json("Data deleted successfully")
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+module.exports={login,viewfarmers,addTips,viewtips,deleteTips,viewCount,deleteUsers}

@@ -108,4 +108,38 @@ const updateStatus=async(req,res)=>{
     }
 }
 
-module.exports = { addproduct,viewProducts,viewProductsById,purchaseProduct,viewplacedOrders,updateStatus}; 
+const deleteProduct=async(req,res)=>{
+    try{
+        const id=req.headers._id;
+        await productModel.deleteOne({_id:id})
+        res.json("Product deleted successfully")
+    }catch(err){
+        console.log(err)
+    }
+}
+
+const updateProduct = async (req, res) => {
+    try {
+      const { productId, date, productCategory } = req.body;
+  
+      if (!productId || !date || !productCategory) {
+        return res.status(400).json({ message: "All fields are required!" });
+      }
+  
+      const updatedProduct = await productModel.findByIdAndUpdate(
+        productId,
+        { date, productCategory },
+        { new: true }
+      );
+  
+      if (!updatedProduct) {
+        return res.status(404).json({ message: "Product not found!" });
+      }
+  
+      res.status(200).json({ message: "Product updated successfully!", updatedProduct });
+    } catch (err) {
+      console.error("Error updating product:", err);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+module.exports = { addproduct,viewProducts,viewProductsById,purchaseProduct,viewplacedOrders,updateStatus,updateProduct,deleteProduct}; 
