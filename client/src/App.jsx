@@ -1,9 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import AddProductDetails from "./components/wholesaler/addproducts";
-import Viewproducts from "./components/farmer/viewproducts";
-import ViewTips from "./components/farmer/tips";
 
 // Lazy Load Components
 const Homepage = lazy(() => import("./components/homepage"));
@@ -13,41 +10,50 @@ const LoginForm = lazy(() => import("./components/login"));
 // Farmer Components
 const FarmerHome = lazy(() => import("./components/farmer/home"));
 const Profile = lazy(() => import("./components/farmer/profile"));
+const ViewProducts = lazy(() => import("./components/farmer/viewproducts"));
+const ViewTips = lazy(() => import("./components/farmer/tips"));
+const MyProduct = lazy(() => import("./components/farmer/myproduct"));
 
 // Admin Components
-const Adminhome = lazy(() => import("./components/admin/home"));
-const Adminviewusers = lazy(() => import("./components/admin/viewuser"));
+const AdminHome = lazy(() => import("./components/admin/home"));
+const AdminViewUsers = lazy(() => import("./components/admin/viewuser"));
 const AdminProfile = lazy(() => import("./components/admin/profile"));
 const AddTips = lazy(() => import("./components/admin/addTips"));
 
 // Wholesaler Components
 const WholesaleDashboard = lazy(() => import("./components/wholesaler/home"));
 const WholesaleProfile = lazy(() => import("./components/wholesaler/profile"));
+const AddProductDetails = lazy(() => import("./components/wholesaler/addproducts"));
+const WholesaleViewOrders = lazy(() => import("./components/wholesaler/vieworders"));
 
 function App() {
   return (
     <Suspense fallback={<h2 style={{ textAlign: "center", marginTop: "20%" }}>Loading...</h2>}>
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Homepage />} />
         <Route path="/register" element={<UserForm />} />
-        <Route path="/login" element={<LoginForm/>} />
+        <Route path="/login" element={<LoginForm />} />
 
-        {/* Farmer */}
+        {/* Farmer Routes */}
         <Route path="/farmer" element={<FarmerHome />} />
         <Route path="/farmer/profile" element={<Profile />} />
-        <Route path="/farmer/market"element={<Viewproducts/>}/> 
-        <Route path="/farmer/viewtips" element={<ViewTips/>}/>
-        {/* Admin */}
-        <Route path="/admin" element={<Adminhome />} />
-        <Route path="/admin/users" element={<Adminviewusers />} />
+        <Route path="/farmer/market" element={<ViewProducts />} />
+        <Route path="/farmer/viewtips" element={<ViewTips />} />
+        <Route path="/farmer/my-products" element={<MyProduct />} />
+
+        {/* Admin Routes */}
+        <Route path="/admin" element={<AdminHome />} />
+        <Route path="/admin/users" element={<AdminViewUsers />} />
         <Route path="/admin/profile" element={<AdminProfile />} />
         <Route path="/admin/tips" element={<AddTips />} />
 
-        {/* Wholesaler */}
+        {/* Wholesaler Routes */}
         <Route path="/wholesale" element={<WholesaleDashboard />} />
         <Route path="/wholesale/profile" element={<WholesaleProfile />} />
-        <Route path="/wholesale/products" element={<AddProductDetails/>}/>
-              </Routes>
+        <Route path="/wholesale/products" element={<AddProductDetails />} />
+        <Route path="/wholesale/vieworders" element={<WholesaleViewOrders />} />
+      </Routes>
     </Suspense>
   );
 }

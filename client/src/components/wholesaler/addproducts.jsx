@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import {
   Container,
@@ -20,6 +20,7 @@ import {
 } from "@mui/material";
 import { Add, Remove, Delete, Edit } from "@mui/icons-material";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 export default function AddProductDetails() {
   const token = jwtDecode(localStorage.getItem("token"));
@@ -101,7 +102,7 @@ export default function AddProductDetails() {
       setOpenForm(false);
       setProduct({ productName: "", productImage: null, productCategory: [{ quality: "", price: "" }], date: "" });
     } catch (err) {
-      setMessage("Server error. Try again later.");
+      setMessage("Server error. Try again later.",err);
     }
   };
 
@@ -113,13 +114,13 @@ export default function AddProductDetails() {
       console.error("Error deleting product:", err);
     }
   };
-
+ const navigate=useNavigate()
   return (
     <Container maxWidth="md" sx={{ mt: 5 }}>
       <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: "center", mb: 3 }}>
         Product List
       </Typography>
-
+      <Button onClick={()=>navigate('/wholesale')}>BACK TO DASH BOARD </Button>
       <Grid container spacing={3}>
         {viewProducts.map((prod) => (
           <Grid item xs={12} sm={6} md={4} key={prod._id}>

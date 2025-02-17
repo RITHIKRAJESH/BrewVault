@@ -1,6 +1,7 @@
 const userModel=require('../models/userModel')
 const argon2 = require('argon2')
 const jwt=require("jsonwebtoken")
+const sellModel=require('../models/productModel')
 const registerUser = async (req, res) => {
     try {
         const { username, email, password, role, shopOrFarmName } = req.body;
@@ -48,7 +49,6 @@ const login = async (req, res) => {
             'jwt-key-factor',
             { expiresIn: "7d" } 
         );
-        console.log("token",token)
         if (isPasswordValid) {
             return res.json({ msg: "Login Successful", status: 200,token:token  });
         } else {
@@ -74,4 +74,15 @@ const userProfile=async(req,res)=>{
     }
 }
 
-module.exports={registerUser,login,userProfile}
+const viewplacedOrders=async(req,res)=>{
+    try{
+        const userid=req.headers.id
+        const orders=await sellModel.find({userId:userid})  
+        .populate("productId"); 
+        res.json(orders)
+    }catch(err){
+        console.log(err)
+    }
+}
+
+module.exports={registerUser,login,userProfile,viewplacedOrders}

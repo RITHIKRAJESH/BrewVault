@@ -1,3 +1,4 @@
+const sellModel = require('../models/productModel');
 const productModel = require('../models/wholesalerModel');  
 
 const addproduct = async (req, res) => {
@@ -68,4 +69,43 @@ const viewProductsById = async (req, res) => {
     }
 };
 
-module.exports = { addproduct,viewProducts,viewProductsById}; 
+
+const purchaseProduct=async(req,res)=>{
+    try{
+        const {userId,productId,quantity}=req.body
+        const productPurchased=new sellModel({
+            userId,
+            productId,
+            quantity
+        })
+        await productPurchased.save()
+        res.json("Product placed successfully wait for our call.")
+    }catch(err){
+        console.log(err)
+    }
+}
+
+const viewplacedOrders=async(req,res)=>{
+    try{
+        const orders=await sellModel.find().populate("userId")  
+        .populate("productId"); 
+        res.json(orders)
+    }catch(err){
+        console.log(err)
+    }
+}
+
+
+const updateStatus=async(req,res)=>{
+    try{
+        const {message,id}=req.body
+        const product=await sellModel.findOne({_id:id})
+        product.status=message
+        product.save()
+        res.json(`Order ${message} successfully`)
+    }catch(err){
+        console.log(err)
+    }
+}
+
+module.exports = { addproduct,viewProducts,viewProductsById,purchaseProduct,viewplacedOrders,updateStatus}; 
