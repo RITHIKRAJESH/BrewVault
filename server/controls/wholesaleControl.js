@@ -57,7 +57,6 @@ const viewProductsById = async (req, res) => {
         }
 
         const products = await productModel.find({ userid: userId });
-
         if (!products.length) {
             return res.status(404).json({ message: "No products found for this user" });
         }

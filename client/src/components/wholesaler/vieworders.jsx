@@ -24,14 +24,15 @@ export default function ViewOrders() {
       .get(`${import.meta.env.VITE_BASE_URL}/wholesale/vieworders`)
       .then((res) => {
         setOrders(res.data);
+        console.log(res.data)
       })
       .catch((err) => console.log(err));
   }, []);
 
-  const filteredOrders = userId
-    ? orders.filter((item) => item.productId.userid === userId)
-    : [];
+  console.log(userId)
+  const filteredOrders = orders.filter((item) => item.productId && item.productId.userid === userId);
 
+console.log("Filtered Orders:", filteredOrders);
   const handleCollect = (orderId) => {
     const status={
       message:"collected",
