@@ -1,6 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import RetailerProfile from "./components/retailer/profile";
+import RetailerViewproducts from "./components/retailer/viewproducts";
 
 // Lazy Load Components
 const Homepage = lazy(() => import("./components/homepage"));
@@ -25,6 +27,9 @@ const WholesaleDashboard = lazy(() => import("./components/wholesaler/home"));
 const WholesaleProfile = lazy(() => import("./components/wholesaler/profile"));
 const AddProductDetails = lazy(() => import("./components/wholesaler/addproducts"));
 const WholesaleViewOrders = lazy(() => import("./components/wholesaler/vieworders"));
+
+//Retailer Components
+const RetailerDashboard=lazy(()=> import("./components/retailer/home"))
 
 function App() {
   return (
@@ -53,6 +58,11 @@ function App() {
         <Route path="/wholesale/profile" element={<WholesaleProfile />} />
         <Route path="/wholesale/products" element={<AddProductDetails />} />
         <Route path="/wholesale/vieworders" element={<WholesaleViewOrders />} />
+
+        {/* Retailer Routes */}
+        <Route path="/retail" element={<RetailerDashboard/>}/>
+        <Route path="/retailer/profile" element={<RetailerProfile/>}/>
+        <Route path="/retailer/viewproducts" element={<RetailerViewproducts/>}/>
       </Routes>
     </Suspense>
   );

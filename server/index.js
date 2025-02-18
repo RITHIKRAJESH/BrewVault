@@ -15,10 +15,13 @@ dbConnect()
 const userRouter=require('./routers/userRouter')
 const adminRouter=require('./routers/adminRouter')
 const WholesaleRouter = require('./routers/wholesaleRouter')
+const retailRouter= require('./routers/retailRouter')
 
 app.use("/user",userRouter)
 app.use("/admin",adminRouter)
 app.use("/wholesale",WholesaleRouter)
+app.use("/retailer",retailRouter)
+
 const port =process.env.PORT || 8000
 
 app.listen(port,()=>{console.log("Server running at",port)})

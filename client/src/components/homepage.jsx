@@ -3,8 +3,6 @@ import { Container, Navbar, Nav, Row, Col, Form, Button } from "react-bootstrap"
 import { EnergySavingsLeaf } from "@mui/icons-material";
 import Carousel from "react-bootstrap/Carousel";
 import img1 from '../assets/akha-farmers.webp'
-import img2 from '../assets/beautiful-natural-landscape.webp'
-import img3 from '../assets/tree-with-small-green-red-berries-it.webp'
 import video from '../assets/7125322-uhd_3840_2160_25fps.mp4'
 import video1 from '../assets/BB_2c2decb2-35e1-4301-873c-fb83f14c1ac2.webm'
 import video3 from  '../assets/BB_834a5845-68f5-40e7-b8fe-49815427ba34.mov'
@@ -34,7 +32,8 @@ export default function Homepage() {
   <Carousel.Item>
     <img
       className="d-block w-100"
-      src={img1}
+       src="https://res.cloudinary.com/dlfv0hr9u/image/upload/v1739879166/owhfk2jyftrmrrzjb6ev.jpg"
+    
       alt="First slide"
       style={{ maxHeight: "90vh", objectFit: "cover" }}
     />
@@ -46,7 +45,7 @@ export default function Homepage() {
   <Carousel.Item>
     <img
       className="d-block w-100"
-      src={img2}
+      src="https://res.cloudinary.com/dlfv0hr9u/image/upload/v1739879167/fpcs9qi5t6ywddmzori2.jpg"
       alt="Second slide"
       style={{ maxHeight: "90vh", objectFit: "cover" }}
     />
@@ -58,7 +57,7 @@ export default function Homepage() {
   <Carousel.Item>
     <img
       className="d-block w-100"
-      src={img3}
+      src={img1}
       alt="Third slide"
       style={{ maxHeight: "90vh", objectFit: "cover" }}
     />
