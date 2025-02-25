@@ -18,15 +18,11 @@ const MyProduct = lazy(() => import("./components/farmer/myproduct"));
 
 // Admin Components
 const AdminHome = lazy(() => import("./components/admin/home"));
-const AdminViewUsers = lazy(() => import("./components/admin/viewuser"));
-const AdminProfile = lazy(() => import("./components/admin/profile"));
-const AddTips = lazy(() => import("./components/admin/addTips"));
+
 
 // Wholesaler Components
 const WholesaleDashboard = lazy(() => import("./components/wholesaler/home"));
-const WholesaleProfile = lazy(() => import("./components/wholesaler/profile"));
-const AddProductDetails = lazy(() => import("./components/wholesaler/addproducts"));
-const WholesaleViewOrders = lazy(() => import("./components/wholesaler/vieworders"));
+
 
 //Retailer Components
 const RetailerDashboard=lazy(()=> import("./components/retailer/home"))
@@ -41,23 +37,19 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
 
         {/* Farmer Routes */}
-        <Route path="/farmer" element={<FarmerHome />} />
-        <Route path="/farmer/profile" element={<Profile />} />
+        <Route path="/farmer/*" element={<FarmerHome />} />
+        {/* <Route path="/farmer/profile" element={<Profile />} />
         <Route path="/farmer/market" element={<ViewProducts />} />
         <Route path="/farmer/viewtips" element={<ViewTips />} />
-        <Route path="/farmer/my-products" element={<MyProduct />} />
+        <Route path="/farmer/my-products" element={<MyProduct />} /> */}
 
         {/* Admin Routes */}
-        <Route path="/admin" element={<AdminHome />} />
-        <Route path="/admin/users" element={<AdminViewUsers />} />
-        <Route path="/admin/profile" element={<AdminProfile />} />
-        <Route path="/admin/tips" element={<AddTips />} />
+        <Route path="/admin/*" element={<AdminHome />} />
+       
 
         {/* Wholesaler Routes */}
-        <Route path="/wholesale" element={<WholesaleDashboard />} />
-        <Route path="/wholesale/profile" element={<WholesaleProfile />} />
-        <Route path="/wholesale/products" element={<AddProductDetails />} />
-        <Route path="/wholesale/vieworders" element={<WholesaleViewOrders />} />
+        <Route path="/wholesale/*" element={<WholesaleDashboard />} />
+     
 
         {/* Retailer Routes */}
         <Route path="/retail" element={<RetailerDashboard/>}/>

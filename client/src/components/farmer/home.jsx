@@ -22,8 +22,13 @@ import PaymentIcon from "@mui/icons-material/Payment";
 import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import { useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
+import Profile from "./profile";
+import ViewProducts from "./viewproducts";
+import ViewTips from "./tips";
+import ViewOrderedProducts from "./myproduct";
+import Orderhistory from "./orderhistory";
 
 const drawerWidth = 240;
 
@@ -102,7 +107,13 @@ export default function FarmerDashboard() {
 
       {/* Main Content */}
       <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
-        <Typography variant="h4">Welcome, Farmer!</Typography>
+        <Routes>
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/market" element={<ViewProducts />} />
+        <Route path="/viewtips" element={<ViewTips />} />
+        <Route path="/my-products" element={<ViewOrderedProducts />} />
+        <Route path="/order-history" element={<Orderhistory />} />
+        </Routes>
       </Box>
     </Box>
   );

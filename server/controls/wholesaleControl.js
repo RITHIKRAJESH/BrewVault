@@ -71,11 +71,12 @@ const viewProductsById = async (req, res) => {
 
 const purchaseProduct=async(req,res)=>{
     try{
-        const {userId,productId,quantity}=req.body
+        const {userId,productId,quantity,location}=req.body
         const productPurchased=new sellModel({
             userId,
             productId,
-            quantity
+            quantity,
+            pickuplocation:location
         })
         await productPurchased.save()
         res.json("Product placed successfully wait for our call.")

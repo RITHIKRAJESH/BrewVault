@@ -160,9 +160,9 @@ export default function AdminDashboard() {
 
         {/* ROUTES FOR DYNAMIC CONTENT */}
         <Routes>
-          <Route path="/admin/users" element={<ViewUsers />} />
-          <Route path="/admin/profile" element={<Profile />} />
-          <Route path="/admin/tips" element={<Tips />} />
+          <Route path="/users" element={<ViewUsers />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/tips" element={<Tips />} />
           {/* Add more routes as needed */}
         </Routes>
       </Box>
