@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
-import { Container, Navbar, Nav, Row, Col, Form, Button } from "react-bootstrap";
+import { Container, Navbar, Nav, Row, Col } from "react-bootstrap";
 import { EnergySavingsLeaf } from "@mui/icons-material";
 import Carousel from "react-bootstrap/Carousel";
 import img1 from '../assets/akha-farmers.webp'
 import video from '../assets/7125322-uhd_3840_2160_25fps.mp4'
 import video1 from '../assets/BB_2c2decb2-35e1-4301-873c-fb83f14c1ac2.webm'
 import video3 from  '../assets/BB_834a5845-68f5-40e7-b8fe-49815427ba34.mov'
+import Contact from "./contact";
+
 
 export default function Homepage() {
   return (
@@ -108,30 +110,7 @@ export default function Homepage() {
       </Container>
 
       {/* Contact Form */}
-      <Container id="contact" className="mt-5">
-        <Row>
-          <Col md={{ span: 6, offset: 3 }}>
-            <h2 className="text-center">Contact Us</h2>
-            <Form>
-              <Form.Group className="mb-3">
-                <Form.Label>Name</Form.Label>
-                <Form.Control type="text" placeholder="Enter your name" />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Email</Form.Label>
-                <Form.Control type="email" placeholder="Enter your email" />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Message</Form.Label>
-                <Form.Control as="textarea" rows={3} placeholder="Your message..." />
-              </Form.Group>
-              <Button variant="primary" type="submit" className="w-100">
-                Submit
-              </Button>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
+     <Contact/>
 
       {/* Footer */}
       <footer className=" text-white text-center py-3 mt-5" style={{backgroundColor:" #052307"}}>

@@ -1,7 +1,8 @@
 const userModel=require('../models/userModel')
 const argon2 = require('argon2')
 const jwt=require("jsonwebtoken")
-const sellModel=require('../models/productModel')
+const sellModel=require('../models/productModel');
+const contactModel = require('../models/contactModel');
 const registerUser = async (req, res) => {
     try {
         const { username, email, password, role, shopOrFarmName } = req.body;
@@ -85,4 +86,17 @@ const viewplacedOrders=async(req,res)=>{
     }
 }
 
-module.exports={registerUser,login,userProfile,viewplacedOrders}
+
+const addContact=async(req,res)=>{
+    try{
+        const {name,email,message}=req.body
+        const contact=new contactModel({
+            name,email,message
+        })
+        await contact.save()
+        res.json({msg:"Message Received Successfully"})
+    }catch(err){
+        res.json(err)
+}};
+
+module.exports={registerUser,login,userProfile,viewplacedOrders,addContact}
