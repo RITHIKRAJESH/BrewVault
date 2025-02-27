@@ -75,6 +75,36 @@ const userProfile=async(req,res)=>{
     }
 }
 
+const updateProfile = async (req, res) => {
+    try {
+      const id = req.headers._id; // Extract user ID from request headers
+      const { mobile, accountno, ifsc } = req.body; // Extract the fields to be updated from the request body
+  
+      // Find the user by ID and update the fields
+      const user = await userModel.findOne({ _id: id });
+  
+      if (!user) {
+        return res.status(404).json({ message: "User not found" }); // If the user is not found, send a 404 response
+      }
+  
+      // Update the user's details
+      user.mobile = mobile || user.mobile;
+      user.accountno = accountno || user.accountno;
+      user.ifsc = ifsc || user.ifsc;
+  
+      // Save the updated user document
+      const updatedUser = await user.save();
+  
+      // Respond with the updated user
+      return res.status(200).json({ message: "Profile updated successfully", user: updatedUser });
+  
+    } catch (err) {
+      console.error("Error updating profile:", err);
+      return res.status(500).json({ message: "Server error", error: err.message });
+    }
+  };
+  
+  
 const viewplacedOrders=async(req,res)=>{
     try{
         const userid=req.headers.id
@@ -99,4 +129,4 @@ const addContact=async(req,res)=>{
         res.json(err)
 }};
 
-module.exports={registerUser,login,userProfile,viewplacedOrders,addContact}
+module.exports={registerUser,login,userProfile,viewplacedOrders,addContact,updateProfile}

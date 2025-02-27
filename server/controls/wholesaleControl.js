@@ -71,12 +71,13 @@ const viewProductsById = async (req, res) => {
 
 const purchaseProduct=async(req,res)=>{
     try{
-        const {userId,productId,quantity,location}=req.body
+        const {userId,productId,quantity,pickupLocation}=req.body
+        console.log(req.body)
         const productPurchased=new sellModel({
             userId,
             productId,
             quantity,
-            pickuplocation:location
+            pickuplocation:pickupLocation
         })
         await productPurchased.save()
         res.json("Product placed successfully wait for our call.")
@@ -103,6 +104,21 @@ const updateStatus=async(req,res)=>{
         product.status=message
         product.save()
         res.json(`Order ${message} successfully`)
+    }catch(err){
+        console.log(err)
+    }
+}
+
+const updatePayment=async(req,res)=>{
+    try{
+        const {status,id,quality,totalprice}=req.body
+        console.log(req.body)
+        const product=await sellModel.findOne({_id:id})
+        product.status=status
+        product.quality=quality
+        product.totalprice=totalprice
+        product.save()
+        res.json(`Order ${status} successfully`)
     }catch(err){
         console.log(err)
     }
@@ -142,4 +158,4 @@ const updateProduct = async (req, res) => {
       res.status(500).json({ message: "Internal server error" });
     }
   };
-module.exports = { addproduct,viewProducts,viewProductsById,purchaseProduct,viewplacedOrders,updateStatus,updateProduct,deleteProduct}; 
+module.exports = { addproduct,viewProducts,viewProductsById,purchaseProduct,viewplacedOrders,updateStatus,updateProduct,deleteProduct,updatePayment}; 

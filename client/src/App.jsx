@@ -11,10 +11,7 @@ const LoginForm = lazy(() => import("./components/login"));
 
 // Farmer Components
 const FarmerHome = lazy(() => import("./components/farmer/home"));
-const Profile = lazy(() => import("./components/farmer/profile"));
-const ViewProducts = lazy(() => import("./components/farmer/viewproducts"));
-const ViewTips = lazy(() => import("./components/farmer/tips"));
-const MyProduct = lazy(() => import("./components/farmer/myproduct"));
+
 
 // Admin Components
 const AdminHome = lazy(() => import("./components/admin/home"));

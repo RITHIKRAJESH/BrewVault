@@ -61,6 +61,7 @@ export default function ViewProducts() {
      axios.post(`${url}/wholesale/productpurchased`, productData)
      .then((res) => {
       alert(res.data);
+      window.location.reload();
      }).catch((err) => console.log(err));
   };
 
@@ -123,15 +124,15 @@ export default function ViewProducts() {
 
                   {/* Pickup Location Input */}
                   <TextField
-                    fullWidth
-                    label="Pickup Location"
-                    variant="outlined"
-                    size="small"
-                    sx={{ mt: 2 }}
-                    value={pickupLocations[product._id] || ""}
-                    placeholder="Enter pickup location"
-                    onChange={(e) => handlePickupLocationChange(product._id, e.target.value)}
-                  />
+  fullWidth
+  label="Pickup Location"
+  variant="outlined"
+  size="large"
+  sx={{mt: 2,}}
+  value={pickupLocations[product._id] || ""}
+  placeholder="Enter pickup location"
+  onChange={(e) => handlePickupLocationChange(product._id, e.target.value)}
+/>
 
                   {/* Add Product Button */}
                   <Button

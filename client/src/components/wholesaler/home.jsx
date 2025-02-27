@@ -1,25 +1,40 @@
 import { useState } from "react";
-import { 
-  AppBar, Toolbar, Typography, Drawer, List, ListItemText, ListItemButton, 
-  Box, CssBaseline, IconButton, Divider 
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Drawer,
+  ListItemText,
+  Box,
+  CssBaseline,
+  IconButton,
+  Divider,
+  useMediaQuery,
+  ListItemButton,
+  List,
 } from "@mui/material";
-import { Store, ShoppingCart, History, Person2, Logout, Menu as MenuIcon } from "@mui/icons-material";
+import MenuIcon from "@mui/icons-material/Menu";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
+import Profile from "./profile";
 import AddProductDetails from "./addproducts";
 import ViewOrders from "./vieworders";
-import Profile from "../farmer/profile";
+import OrderHistory from "./orderhistory";  // Importing the OrderHistory component
+import { Logout, Person, ShoppingCart, Store,HistoryEdu} from "@mui/icons-material";
 
 const drawerWidth = 240;
 
 export default function WholesaleDashboard() {
   const navigate = useNavigate();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Check for mobile screen
+  const [mobileOpen, setMobileOpen] = useState(false); // Mobile drawer state
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const drawer = (
+  const drawerContent = (
     <Box sx={{ width: drawerWidth }}>
       <Toolbar />
       <Divider />
@@ -31,14 +46,14 @@ export default function WholesaleDashboard() {
           <ShoppingCart sx={{ mr: 2 }} /> <ListItemText primary="Farmer Selections" />
         </ListItemButton>
         <ListItemButton onClick={() => navigate("/wholesale/order-history")}> 
-          <History sx={{ mr: 2 }} /> <ListItemText primary="Order History" />
+          <HistoryEdu sx={{ mr: 2 }} /> <ListItemText primary="Order History" />
         </ListItemButton>
         <ListItemButton onClick={() => navigate("/wholesale/profile")}> 
-          <Person2 sx={{ mr: 2 }} /> <ListItemText primary="Profile" />
+          <Person sx={{ mr: 2 }} /> <ListItemText primary="Profile" />
         </ListItemButton>
         <ListItemButton
           onClick={() => {
-            navigate("/");
+            navigate("/"); 
             localStorage.clear();
           }}
         >
@@ -52,60 +67,42 @@ export default function WholesaleDashboard() {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
 
-      {/* AppBar for Mobile and Desktop */}
-      <AppBar position="fixed" sx={{ width: { sm: `calc(100% - ${drawerWidth}px)` }, ml: { sm: `${drawerWidth}px` } }}>
+      {/* App Bar with Menu Icon for Mobile */}
+      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Toolbar>
-          {/* Mobile Menu Button */}
-          <IconButton 
-            color="inherit" 
-            edge="start" 
-            onClick={handleDrawerToggle} 
-            sx={{ mr: 2, display: { sm: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Wholesale Admin Dashboard
+          {isMobile && (
+            <IconButton color="inherit" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2 }}>
+              <MenuIcon />
+            </IconButton>
+          )}
+          <Typography variant="h6" noWrap component="div">
+            WholeSale Dashboard
           </Typography>
         </Toolbar>
       </AppBar>
 
-      {/* Sidebar Drawer (Permanent for Desktop, Temporary for Mobile) */}
+      {/* Sidebar for Desktop (Permanent) */}
       <Drawer
-        variant="permanent"
-        sx={{ 
-          display: { xs: "none", sm: "block" },
-          width: drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: "border-box" }
-        }}
-      >
-        {drawer}
-      </Drawer>
-
-      {/* Mobile Drawer */}
-      <Drawer
-        variant="temporary"
-        open={mobileOpen}
+        variant={isMobile ? "temporary" : "permanent"}
+        open={isMobile ? mobileOpen : true}
         onClose={handleDrawerToggle}
         sx={{
-          display: { xs: "block", sm: "none" },
-          "& .MuiDrawer-paper": { width: drawerWidth },
+          width: drawerWidth,
+          flexShrink: 0,
+          [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: "border-box" },
         }}
       >
-        {drawer}
+        {drawerContent}
       </Drawer>
 
       {/* Main Content */}
-      <Box component="main" sx={{ flexGrow: 1, p: 3, ml: { sm: `${drawerWidth}px` } }}>
-        <Toolbar />
+      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
         <Routes>
           <Route path="/" element={<ViewOrders />} />
           <Route path="products" element={<AddProductDetails />} />
           <Route path="vieworders" element={<ViewOrders />} />
           <Route path="profile" element={<Profile />} />
-          {/* Ensure an OrderHistory component is created before adding this route */}
-          {/* <Route path="order-history" element={<OrderHistory />} /> */}
+          <Route path="order-history" element={<OrderHistory />} />
         </Routes>
       </Box>
     </Box>

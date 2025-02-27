@@ -6,7 +6,10 @@ const userSchema=new mongoose.Schema({
     email:{type:String},
     password:{type:String},
     role:{type:String},
-    shopOrFarmName:{type:String}
+    shopOrFarmName:{type:String},
+    mobile:{type:String},
+    accountno:{type:String},
+    ifsc:{type:String}, 
 },{timestamps:true})
 
 
