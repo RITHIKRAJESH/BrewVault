@@ -2,6 +2,8 @@ const { model } = require('mongoose')
 const userModel=require('../models/userModel')
 const tipsModel=require('../models/tipsModel')
 const productModel=require('../models/productModel')
+const contactModel=require('../models/contactModel')
+const nodemailer=require('nodemailer')
 const login=async(req,res)=>{
     try{
         const {email,password}=req.body
@@ -73,11 +75,12 @@ const viewCount = async (req, res) => {
       const userCount = await userModel.countDocuments();
       const productCount = await productModel.countDocuments();
       const orderCount = await tipsModel.countDocuments();
-  
+      const messageCount = await contactModel.countDocuments();
       res.status(200).json({
         users: userCount,
         products: productCount,
         orders: orderCount,
+        messages: messageCount,
       });
     } catch (err) {
       console.error("Error fetching counts:", err);
@@ -95,4 +98,47 @@ const viewCount = async (req, res) => {
         console.log(err)
     }
 }
-module.exports={login,viewfarmers,addTips,viewtips,deleteTips,viewCount,deleteUsers}
+
+const viewMessages=async(req,res)=>{
+    try{
+        const messages=await contactModel.find()
+        console.log(messages)
+        res.json(messages)
+    }catch(err){
+        console.log(err)
+    }
+}
+
+const sentResponse = async (req, res) => {
+    try {
+        const { email, message } = req.body;
+        
+        let transporter = nodemailer.createTransport({
+            service: 'gmail', 
+            auth: {
+                user: 'rajeshrithik49@gmail.com', 
+                pass: process.env.App_Key, 
+            },
+        });
+
+        const mailOptions = {
+            from: 'rajeshrithik49@gmail.com', 
+            to: email, 
+            subject: 'Response from BrewVault',
+            text: message, 
+        };
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+                console.log('Error sending email: ', err);
+                return res.status(500).json({ error: 'Failed to send response email.' });
+            }
+            console.log('Email sent: ' + info.response);
+            return res.json({ msg: 'Response sent successfully' });
+        });
+         
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: 'Something went wrong while sending the email.' });
+    }
+};
+module.exports={login,viewfarmers,addTips,viewtips,deleteTips,viewCount,deleteUsers,viewMessages,sentResponse}

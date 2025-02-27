@@ -3,12 +3,13 @@ import {
   AppBar, Toolbar, Typography, Drawer, List, ListItemText, ListItemButton, 
   Collapse, Box, CssBaseline, IconButton, useMediaQuery, useTheme, Grid, Paper 
 } from "@mui/material";
-import { Home, People, ExpandLess, ExpandMore, Menu, Logout, Person, TipsAndUpdates, ShoppingCart } from "@mui/icons-material";
+import { Home, People, ExpandLess, ExpandMore, Menu, Logout, Person, TipsAndUpdates, ShoppingCart, MessageOutlined } from "@mui/icons-material";
 import { useNavigate, Routes, Route } from "react-router-dom";
 import ViewUsers from "./viewuser"; 
 import Profile from "./profile";
 import Tips from "./addTips"; 
 import axios from "axios";
+import Msg from "./msg";
 
 const drawerWidth = 240;
 
@@ -58,6 +59,10 @@ export default function AdminDashboard() {
         <ListItemText primary="Tips" />
       </ListItemButton>
 
+      <ListItemButton onClick={() => navigate("/admin/message")}>
+        <MessageOutlined sx={{ mr: 2 }} />
+        <ListItemText primary="Messages" />
+      </ListItemButton>
       <ListItemButton onClick={() => navigate("/admin/profile")}>
         <Person sx={{ mr: 2 }} />
         <ListItemText primary="Profile" />
@@ -156,6 +161,15 @@ export default function AdminDashboard() {
               <Typography variant="h4">{count.orders}</Typography>
             </Paper>
           </Grid>
+      
+        {/* Message Count */}
+        <Grid item xs={12} sm={6} md={4}>
+        <Paper elevation={3} sx={{ p: 3, textAlign: "center", bgcolor: "#FFEB3B" }}>
+              <MessageOutlined sx={{ fontSize: 40, color: "success.light" }} />
+              <Typography variant="h6">Messages</Typography>
+              <Typography variant="h4">{count.orders}</Typography>
+            </Paper>
+          </Grid>
         </Grid>
 
         {/* ROUTES FOR DYNAMIC CONTENT */}
@@ -163,6 +177,8 @@ export default function AdminDashboard() {
           <Route path="/users" element={<ViewUsers />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/tips" element={<Tips />} />
+          <Route path="/message" element={<Msg/>}/>
+
           {/* Add more routes as needed */}
         </Routes>
       </Box>
