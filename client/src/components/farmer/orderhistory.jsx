@@ -7,25 +7,29 @@ import {
 } from "@mui/material";
 
 export default function Orderhistory() {
-
-    const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
- const token = localStorage.getItem("token");
-   let userId = null;
-   if (token) {
-     try {
-       const decoded = jwtDecode(token);
-       userId = decoded?.payload?._id; // Ensure correct token structure
-     } catch (error) {
-       console.error("Invalid token:", error);
-     }
-   }
- 
+  const token = localStorage.getItem("token");
+
+  let userId = null;
+  if (token) {
+    try {
+      const decoded = jwtDecode(token);
+      userId = decoded?.payload?._id; // Ensure correct token structure
+    } catch (error) {
+      console.error("Invalid token:", error);
+    }
+  }
+
   useEffect(() => {
     const fetchOrders = async () => {
+      if (!userId) {
+        setLoading(false);
+        return;
+      }
       try {
         const url = import.meta.env.VITE_BASE_URL;
-        const response = await axios.get(`${url}/user/vieworders`,{headers:{id:userId}});
+        const response = await axios.get(`${url}/user/vieworders`, { headers: { id: userId } });
         setOrders(response.data);
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -34,17 +38,21 @@ export default function Orderhistory() {
       }
     };
     fetchOrders();
-  }, []);
+  }, [userId]); // Dependency array includes userId
 
-  const completed=orders.filter((order)=>order.status==="collected")
+  const completed = orders.filter((order) => order.status === "collected");
+
   return (
-    <div>
-       <Box sx={{ p: 3 }}>
+    <Box sx={{ p: 3 }}>
       <Typography variant="h4" sx={{ mb: 3 }}>
-       ORDER HISTORY
+        ORDER HISTORY
       </Typography>
       {loading ? (
         <CircularProgress />
+      ) : completed.length === 0 ? (
+        <Typography variant="h6" sx={{ textAlign: "center", color: "gray" }}>
+          No Current Orders
+        </Typography>
       ) : (
         <TableContainer component={Paper}>
           <Table>
@@ -61,9 +69,9 @@ export default function Orderhistory() {
               {completed.map((order, index) => (
                 <TableRow key={index}>
                   <TableCell>{order._id}</TableCell>
-                  <TableCell>{order.productId.productName || "N/A"}</TableCell>
+                  <TableCell>{order.productId?.productName || "N/A"}</TableCell>
                   <TableCell>{order.quantity}</TableCell>
-                  <TableCell>{order.productId.date || "N/A"}</TableCell>
+                  <TableCell>{order.productId?.date || "N/A"}</TableCell>
                   <TableCell>{order.status || "N/A"}</TableCell>
                 </TableRow>
               ))}
@@ -72,6 +80,5 @@ export default function Orderhistory() {
         </TableContainer>
       )}
     </Box>
-    </div>
-  )
+  );
 }
