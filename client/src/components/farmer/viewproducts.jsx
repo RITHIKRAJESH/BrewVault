@@ -61,7 +61,7 @@ export default function ViewProducts() {
      axios.post(`${url}/wholesale/productpurchased`, productData)
      .then((res) => {
       alert(res.data);
-      window.location.reload();
+    
      }).catch((err) => console.log(err));
   };
 

@@ -111,7 +111,7 @@ const viewMessages=async(req,res)=>{
 
 const sentResponse = async (req, res) => {
     try {
-        const { email, message } = req.body;
+        const { email, message,status} = req.body;
         
         let transporter = nodemailer.createTransport({
             service: 'gmail', 
@@ -120,7 +120,12 @@ const sentResponse = async (req, res) => {
                 pass: process.env.App_Key, 
             },
         });
-
+        const updatedMessage= await contactModel.findOneAndUpdate({
+            email: email,
+            status: 'replied',
+            message: message
+        });
+        await updatedMessage.save();
         const mailOptions = {
             from: 'rajeshrithik49@gmail.com', 
             to: email, 
@@ -133,7 +138,7 @@ const sentResponse = async (req, res) => {
                 return res.status(500).json({ error: 'Failed to send response email.' });
             }
             console.log('Email sent: ' + info.response);
-            
+           
             return res.json({ msg: 'Response sent successfully' });
         });
          

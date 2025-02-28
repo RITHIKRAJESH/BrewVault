@@ -15,7 +15,7 @@ export default function Msg() {
     const handleResponse = (email) => {
         const url = import.meta.env.VITE_BASE_URL;
         const responseMessage = "Your message has been received, we will get back to you shortly.";
-        axios.post(`${url}/admin/respond`, { email, message: responseMessage })
+        axios.post(`${url}/admin/respond`, { email, message: responseMessage ,status: 'responded'})
             .then(res => {
                 alert(res.data.msg);
                 setMsg(prevMsg =>
