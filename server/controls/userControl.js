@@ -121,7 +121,7 @@ const addContact=async(req,res)=>{
     try{
         const {name,email,message}=req.body
         const contact=new contactModel({
-            name,email,message
+            name,email,message,status:"pending"
         })
         await contact.save()
         res.json({msg:"Message Received Successfully"})
