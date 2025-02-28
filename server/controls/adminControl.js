@@ -133,6 +133,7 @@ const sentResponse = async (req, res) => {
                 return res.status(500).json({ error: 'Failed to send response email.' });
             }
             console.log('Email sent: ' + info.response);
+            
             return res.json({ msg: 'Response sent successfully' });
         });
          
@@ -141,4 +142,40 @@ const sentResponse = async (req, res) => {
         return res.status(500).json({ error: 'Something went wrong while sending the email.' });
     }
 };
-module.exports={login,viewfarmers,addTips,viewtips,deleteTips,viewCount,deleteUsers,viewMessages,sentResponse}
+
+// Update Message Status
+const updateMessageStatus = async (req, res) => {
+    try {
+        const { id, status } = req.body;
+        const updatedMessage = await contactModel.findByIdAndUpdate(id, { status }, { new: true });
+
+        if (!updatedMessage) {
+            return res.status(404).json({ error: "Message not found" });
+        }
+
+        res.json({ msg: "Message status updated successfully", updatedMessage });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Error updating message status" });
+    }
+};
+
+// Delete Message
+const deleteMessage = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedMessage = await contactModel.findByIdAndDelete(id);
+
+        if (!deletedMessage) {
+            return res.status(404).json({ error: "Message not found" });
+        }
+
+        res.json({ msg: "Message deleted successfully" });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Error deleting message" });
+    }
+};
+
+
+module.exports={login,viewfarmers,addTips,viewtips,deleteTips,viewCount,deleteUsers,deleteMessage,viewMessages,sentResponse,updateMessageStatus}

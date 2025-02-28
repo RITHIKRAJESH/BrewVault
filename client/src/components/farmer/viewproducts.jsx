@@ -120,6 +120,7 @@ export default function ViewProducts() {
                     value={quantities[product._id] || ""}
                     placeholder="Amount of qty you want to sell"
                     onChange={(e) => handleQuantityChange(product._id, e.target.value)}
+                    required
                   />
 
                   {/* Pickup Location Input */}
@@ -132,6 +133,7 @@ export default function ViewProducts() {
   value={pickupLocations[product._id] || ""}
   placeholder="Enter pickup location"
   onChange={(e) => handlePickupLocationChange(product._id, e.target.value)}
+  required
 />
 
                   {/* Add Product Button */}
@@ -141,6 +143,7 @@ export default function ViewProducts() {
                     fullWidth
                     sx={{ mt: 2 }}
                     onClick={() => handleAddProduct(product)}
+                    disabled={!quantities[product._id] || !pickupLocations[product._id]}
                   >
                     Add Product
                   </Button>

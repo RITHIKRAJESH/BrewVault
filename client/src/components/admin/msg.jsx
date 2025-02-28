@@ -1,5 +1,5 @@
 import axios from 'axios';
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 
 export default function Msg() {
@@ -8,20 +8,33 @@ export default function Msg() {
     useEffect(() => {
         const url = import.meta.env.VITE_BASE_URL;
         axios.get(`${url}/admin/viewmessages`)
-            .then(res => {setMsg(res.data)})
+            .then(res => setMsg(res.data))
             .catch(err => console.log(err));
     }, []);
-    
+
     const handleResponse = (email) => {
         const url = import.meta.env.VITE_BASE_URL;
         const responseMessage = "Your message has been received, we will get back to you shortly.";
         axios.post(`${url}/admin/respond`, { email, message: responseMessage })
             .then(res => {
-                alert(res.data.msg); 
+                alert(res.data.msg);
+                setMsg(prevMsg =>
+                    prevMsg.map(item =>
+                        item.email === email ? { ...item, status: 'responded' } : item
+                    )
+                );
             })
-            .catch(err => {
-                console.log(err);
-            });
+            .catch(err => console.log(err));
+    };
+
+    const handleDelete = (id) => {
+        const url = import.meta.env.VITE_BASE_URL;
+        axios.delete(`${url}/admin/deletemessage/${id}`)
+            .then(res => {
+                alert(res.data.msg);
+                setMsg(prevMsg => prevMsg.filter(item => item._id !== id));
+            })
+            .catch(err => console.log(err));
     };
 
     return (
@@ -32,7 +45,7 @@ export default function Msg() {
                         <TableCell align="center">Name</TableCell>
                         <TableCell align="center">Email</TableCell>
                         <TableCell align="center">Message</TableCell>
-                        <TableCell align="center">Response</TableCell>
+                        <TableCell align="center">Action</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -42,13 +55,23 @@ export default function Msg() {
                             <TableCell align="center">{message.email}</TableCell>
                             <TableCell align="center">{message.message}</TableCell>
                             <TableCell align="center">
-                                <Button 
-                                    variant="contained" 
-                                    color="primary"
-                                    onClick={() => handleResponse(message.email)}
-                                >
-                                    Send Response
-                                </Button>
+                                {message.status === "pending" ? (
+                                    <Button 
+                                        variant="contained" 
+                                        color="primary"
+                                        onClick={() => handleResponse(message.email)}
+                                    >
+                                        Send Response
+                                    </Button>
+                                ) : (
+                                    <Button 
+                                        variant="contained" 
+                                        color="secondary"
+                                        onClick={() => handleDelete(message._id)}
+                                    >
+                                        Delete
+                                    </Button>
+                                )}
                             </TableCell>
                         </TableRow>
                     ))}

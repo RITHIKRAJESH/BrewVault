@@ -1,8 +1,9 @@
 const express = require("express");
-const { addproduct, viewProducts } = require("../controls/retailerControl");
+const { addproduct, viewProducts, updateProduct, viewProduct} = require("../controls/retailerControl");
 const multer = require("multer");
 const { v2: cloudinary } = require("cloudinary");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
 require("dotenv").config();
 
 const retailRouter = express.Router();
@@ -30,5 +31,6 @@ const upload = multer({ storage: storage }).single("productImage");
 
 retailRouter.post("/addproduct", upload, addproduct);
 retailRouter.get("/viewproducts",viewProducts)
-
+retailRouter.put("/updateproduct",updateProduct)
+retailRouter.get("/viewproduct",viewProduct)
 module.exports = retailRouter;

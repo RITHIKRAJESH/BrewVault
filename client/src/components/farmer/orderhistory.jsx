@@ -40,7 +40,7 @@ export default function Orderhistory() {
     fetchOrders();
   }, [userId]); // Dependency array includes userId
 
-  const completed = orders.filter((order) => order.status === "collected");
+  // const completed = orders.filter((order) => order.status === "collected");
 
   return (
     <Box sx={{ p: 3 }}>
@@ -49,7 +49,7 @@ export default function Orderhistory() {
       </Typography>
       {loading ? (
         <CircularProgress />
-      ) : completed.length === 0 ? (
+      ) : orders.length === 0 ? (
         <Typography variant="h6" sx={{ textAlign: "center", color: "gray" }}>
           No Current Orders
         </Typography>
@@ -63,16 +63,20 @@ export default function Orderhistory() {
                 <TableCell><strong>Quantity</strong></TableCell>
                 <TableCell><strong>Date</strong></TableCell>
                 <TableCell><strong>Status</strong></TableCell>
+                {/* <TableCell><strong>Quality</strong></TableCell> */}
+                <TableCell><strong>Total Price</strong></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {completed.map((order, index) => (
+              {orders.map((order, index) => (
                 <TableRow key={index}>
                   <TableCell>{order._id}</TableCell>
                   <TableCell>{order.productId?.productName || "N/A"}</TableCell>
                   <TableCell>{order.quantity}</TableCell>
                   <TableCell>{order.productId?.date || "N/A"}</TableCell>
                   <TableCell>{order.status || "N/A"}</TableCell>
+                  {/* <TableCell>{ order.quality}</TableCell> */}
+                  <TableCell>{order.totalprice}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

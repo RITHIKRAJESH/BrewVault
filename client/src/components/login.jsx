@@ -42,7 +42,7 @@ const LoginForm = () => {
           } else if (res.data.status === 200 && decoded.payload.role === "wholesaler") {
             navigate("/wholesale");
           }else if (res.data.status === 200 && decoded.payload.role === "retailer") {
-            navigate("/retail");}
+            navigate("/retailer");}
         })
         .catch((err) => {
           console.log(err);

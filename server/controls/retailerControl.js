@@ -33,4 +33,22 @@ const viewProducts=async(req,res)=>{
     }
 }
 
-module.exports={addproduct,viewProducts}
+const viewProduct=async(req,res)=>{
+    try{
+        const products=await productModel.find()
+        res.json(products)
+    }catch(err){
+        console.log(err)
+    }
+}
+
+const updateProduct=async(req,res)=>{
+    try{
+        const {productId,quantity}=req.body
+        await productModel
+        .findByIdAndUpdate(productId, { quantity }, { new: true })
+        res.json({message:"Quantity updated successfully!"})
+    }catch(err){    
+        console.log(err)
+    }}
+module.exports={addproduct,viewProducts,updateProduct,viewProduct}

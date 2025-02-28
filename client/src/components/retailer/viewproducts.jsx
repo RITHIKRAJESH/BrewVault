@@ -1,63 +1,62 @@
 import { useEffect, useState } from "react";
 import { 
-  Container, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, 
-  Fab, Typography,Card,CardMedia,Grid,CardContent
+  Container,  Typography,Card,CardMedia,Grid,CardContent
 } from "@mui/material";
-import { Add } from "@mui/icons-material";
+// import { Add } from "@mui/icons-material";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
 export default function RetailerViewproducts() {
-  const [openForm, setOpenForm] = useState(false);
+  // const [openForm, setOpenForm] = useState(false);
   const token=jwtDecode(localStorage.getItem("token"))
-  const [product, setProduct] = useState({
-    productName: "",
-    productImage: null,
-    quantity: "",
-    rate: "",
+  // const [product, setProduct] = useState({
+  //   productName: "",
+  //   productImage: null,
+  //   quantity: "",
+  //   rate: "",
     
-  });
+  // });
 
   const [record,setRecord]=useState([])
  
   useEffect(()=>{
-      axios.get(`${import.meta.env.VITE_BASE_URL}/retailer/viewproducts`,{headers:{userid:token.payload._id}})
+      axios.get(`${import.meta.env.VITE_BASE_URL}/retailer/viewproduct`)
       .then((res)=>{
         console.log(res.data)
         setRecord(res.data)
       }).catch((err)=>{console.log(err)})
   },[])
 
-  const handleChange = (e) => {
-    setProduct({ ...product, [e.target.name]: e.target.value });
-  };
+  // const handleChange = (e) => {
+  //   setProduct({ ...product, [e.target.name]: e.target.value });
+  // };
 
-  const handleFileChange = (e) => {
-    setProduct({ ...product, productImage: e.target.files[0] });
-  };
+  // const handleFileChange = (e) => {
+  //   setProduct({ ...product, productImage: e.target.files[0] });
+  // };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("productName", product.productName);
-    formData.append("productImage", product.productImage); // Ensure file is included
-    formData.append("quantity", product.quantity);
-    formData.append("rate", product.rate);
-    formData.append("userid",token.payload._id);
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   formData.append("productName", product.productName);
+  //   formData.append("productImage", product.productImage); // Ensure file is included
+  //   formData.append("quantity", product.quantity);
+  //   formData.append("rate", product.rate);
+  //   formData.append("userid",token.payload._id);
   
-    axios.post(`${import.meta.env.VITE_BASE_URL}/retailer/addproduct`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    })
-    .then((res) => {
-      alert(res.data.message);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  //   axios.post(`${import.meta.env.VITE_BASE_URL}/retailer/addproduct`, formData, {
+  //     headers: { "Content-Type": "multipart/form-data" },
+  //   })
+  //   .then((res) => {
+  //     alert(res.data.message);
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //   });
   
-    setOpenForm(false);
-    setProduct({ productName: "", productImage: null, quantity: "", rate: "", userid:"" });
-  };
+  //   setOpenForm(false);
+  //   setProduct({ productName: "", productImage: null, quantity: "", rate: "", userid:"" });
+  // };
   
   return (
     <Container>
@@ -93,7 +92,7 @@ export default function RetailerViewproducts() {
 
 
 
-      <Fab
+      {/* <Fab
         color="primary"
         sx={{ position: "fixed", bottom: 20, right: 20 }}
         onClick={() => setOpenForm(true)}
@@ -136,7 +135,7 @@ export default function RetailerViewproducts() {
           <Button onClick={() => setOpenForm(false)} color="secondary">Cancel</Button>
           <Button onClick={handleSubmit} variant="contained" color="primary">Add Product</Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </Container>
   );
 }

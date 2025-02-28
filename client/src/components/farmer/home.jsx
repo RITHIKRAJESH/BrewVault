@@ -51,7 +51,7 @@ export default function FarmerDashboard() {
     { text: "View Market", path: "/farmer/market", icon: <StorefrontIcon /> },
     { text: "My Products", path: "/farmer/my-products", icon: <ShoppingCartIcon /> },
     { text: "Order History", path: "/farmer/order-history", icon: <HistoryIcon /> },
-    { text: "Payments", path: "/payments", icon: <PaymentIcon /> },
+    // { text: "Payments", path: "/payments", icon: <PaymentIcon /> },
     { text: "Tips", path: "/farmer/viewtips", icon: <TipsAndUpdatesIcon /> },
     { text: "Profile", path: "/farmer/profile", icon: <AccountCircleIcon /> },
     { text: "Logout", path: "/", icon: <ExitToAppIcon />, onClick: handleLogout },
@@ -108,6 +108,7 @@ export default function FarmerDashboard() {
       {/* Main Content */}
       <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
         <Routes>
+        <Route path="/" element={<ViewProducts/>}/>
         <Route path="/profile" element={<Profile />} />
         <Route path="/market" element={<ViewProducts />} />
         <Route path="/viewtips" element={<ViewTips />} />

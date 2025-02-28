@@ -1,5 +1,5 @@
 const express=require('express')
-const { login, viewfarmers, addTips, viewtips, deleteTips, viewCount, deleteUsers, viewMessages,sentResponse } = require('../controls/adminControl')
+const { login, viewfarmers, addTips, viewtips, deleteTips, viewCount, deleteUsers, viewMessages,sentResponse, deleteMessage, updateMessageStatus } = require('../controls/adminControl')
 
 const adminRouter=express.Router()
 
@@ -12,5 +12,7 @@ adminRouter.route("/countuser").get(viewCount)
 adminRouter.route("/deleteuser").delete(deleteUsers)
 adminRouter.route("/viewmessages").get(viewMessages)
 adminRouter.route("/respond").post(sentResponse)
+adminRouter.put("/updatestatus", updateMessageStatus);
+adminRouter.delete("/deletemessage/:id", deleteMessage);
 module.exports=adminRouter
 

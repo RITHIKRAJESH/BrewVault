@@ -26,6 +26,7 @@ export default function ViewOrderedProducts() {
         const url = import.meta.env.VITE_BASE_URL;
         const response = await axios.get(`${url}/user/vieworders`,{headers:{id:userId}});
         setOrders(response.data);
+        console.log(orders.length)
       } catch (error) {
         console.error("Error fetching orders:", error);
       } finally {
@@ -35,6 +36,7 @@ export default function ViewOrderedProducts() {
     fetchOrders();
   }, []);
 
+  const orderings= orders.filter((order) => order.status != "paid");
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" sx={{ mb: 3 }}>
@@ -55,16 +57,25 @@ export default function ViewOrderedProducts() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((order, index) => (
-                <TableRow key={index}>
-                  <TableCell>{order._id}</TableCell>
-                  <TableCell>{order.productId.productName || "N/A"}</TableCell>
-                  <TableCell>{order.quantity}</TableCell>
-                  <TableCell>{order.productId.date || "N/A"}</TableCell>
-                  <TableCell>{order.status || "N/A"}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
+  {orderings.length > 0 ? (
+    orderings.map((order, index) => (
+      <TableRow key={index}>
+        <TableCell>{order._id}</TableCell>
+        <TableCell>{order.productId?.productName || "N/A"}</TableCell>
+        <TableCell>{order.quantity}</TableCell>
+        <TableCell>{order.productId?.date || "N/A"}</TableCell>
+        <TableCell>{order.status || "N/A"}</TableCell>
+      </TableRow>
+    ))
+  ) : (
+    <TableRow>
+      <TableCell colSpan={5} align="center">
+        No orders to be collected
+      </TableCell>
+    </TableRow>
+  )}
+</TableBody>
+
           </Table>
         </TableContainer>
       )}
