@@ -8,11 +8,12 @@ const UserForm = () => {
     username: "",
     email: "",
     password: "",
+    confirmPassword: "",  // Added confirmPassword field
     role: "",
     shopOrFarmName: "",
-    mobile: "", // Added mobile field
+    mobile: "",
   });
-  
+
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
@@ -26,10 +27,15 @@ const UserForm = () => {
     tempErrors.email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) ? "" : "Valid email is required";
     tempErrors.password = formData.password.length >= 6 ? "" : "Password must be at least 6 characters";
     tempErrors.role = formData.role ? "" : "User type is required";
-    tempErrors.mobile = /^\d{10}$/.test(formData.mobile) ? "" : "Mobile number must be 10 digits"; // Mobile validation
+    tempErrors.mobile = /^\d{10}$/.test(formData.mobile) ? "" : "Mobile number must be 10 digits";
+    
+    // Check if passwords match
+    tempErrors.confirmPassword = formData.password === formData.confirmPassword ? "" : "Passwords must match";
+
     if (formData.role) {
       tempErrors.shopOrFarmName = formData.shopOrFarmName ? "" : formData.role === "farmer" ? "Farm Name is required" : "Shop Name is required";
     }
+
     setErrors(tempErrors);
     return Object.values(tempErrors).every(x => x === "");
   };
@@ -93,6 +99,20 @@ const UserForm = () => {
             error={!!errors.password}
             helperText={errors.password}
           />
+          
+          {/* Confirm Password field */}
+          <TextField
+            fullWidth
+            label="Confirm Password"
+            name="confirmPassword"
+            type="password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            margin="normal"
+            error={!!errors.confirmPassword}
+            helperText={errors.confirmPassword}
+          />
+
           <TextField
             fullWidth
             label="Mobile"
