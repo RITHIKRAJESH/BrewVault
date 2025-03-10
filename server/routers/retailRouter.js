@@ -1,5 +1,5 @@
 const express = require("express");
-const { addproduct, viewProducts, updateProduct, viewProduct} = require("../controls/retailerControl");
+const { addproduct, viewProducts, updateProduct, viewProduct, addToCart, viewCart, removeItem, incrementQuantity, decrementQuantity, retailOrder, viewOrder, updateOrderStatus} = require("../controls/retailerControl");
 const multer = require("multer");
 const { v2: cloudinary } = require("cloudinary");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
@@ -28,9 +28,17 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage: storage }).single("productImage");
 
-
 retailRouter.post("/addproduct", upload, addproduct);
 retailRouter.get("/viewproducts",viewProducts)
-retailRouter.put("/updateproduct",updateProduct)
+retailRouter.put("/updateproduct",upload,updateProduct)
 retailRouter.get("/viewproduct",viewProduct)
+retailRouter.post("/addCart",addToCart)
+retailRouter.get("/viewCart",viewCart)
+retailRouter.delete("/removeCartItem",removeItem)
+retailRouter.put("/incrementQuantity",incrementQuantity)
+retailRouter.put("/decrementQuantity",decrementQuantity)
+retailRouter.post("/checkout",retailOrder)
+retailRouter.get("/fetchOrder",viewOrder)
+retailRouter.put("/updateOrderStatus",updateOrderStatus)
+
 module.exports = retailRouter;

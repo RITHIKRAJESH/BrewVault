@@ -76,11 +76,13 @@ const viewCount = async (req, res) => {
       const productCount = await productModel.countDocuments();
       const orderCount = await tipsModel.countDocuments();
       const messageCount = await contactModel.countDocuments();
+      const tipsCount = await tipsModel.countDocuments();
       res.status(200).json({
         users: userCount,
         products: productCount,
         orders: orderCount,
         messages: messageCount,
+        tips:tipsCount
       });
     } catch (err) {
       console.error("Error fetching counts:", err);

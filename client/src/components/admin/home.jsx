@@ -166,8 +166,8 @@ export default function AdminDashboard() {
         <Grid item xs={12} sm={6} md={4}>
         <Paper elevation={3} sx={{ p: 3, textAlign: "center", bgcolor: "#FFEB3B" }}>
               <MessageOutlined sx={{ fontSize: 40, color: "success.light" }} />
-              <Typography variant="h6">Messages</Typography>
-              <Typography variant="h4">{count.orders}</Typography>
+              <Typography variant="h6">Tips</Typography>
+              <Typography variant="h4">{count.tips}</Typography>
             </Paper>
           </Grid>
         </Grid>

@@ -1,9 +1,10 @@
 const sellModel = require('../models/productModel');
 const productModel = require('../models/wholesalerModel');  
+const retailproductModel=require('../models/retailproductModel')
 
 const addproduct = async (req, res) => {
     try {
-        const { userid, productName, productCategory, date } = req.body;
+        const { userid, productName, productCategory, date,quantity } = req.body;
 
         let parsedCategories;
         try {
@@ -24,6 +25,7 @@ const addproduct = async (req, res) => {
             productName,
             productCategory: parsedCategories,
             date,
+            quantity,
             productImage, // Cloudinary Image URL
         });
 
@@ -69,26 +71,74 @@ const viewProductsById = async (req, res) => {
 };
 
 
-const purchaseProduct=async(req,res)=>{
-    try{
-        const {userId,productId,quantity,pickupLocation}=req.body
-        console.log(req.body)
-        const productPurchased=new sellModel({
-            userId,
-            productId,
-            quantity,
-            pickuplocation:pickupLocation
-        })
-        await productPurchased.save()
-        res.json("Product placed successfully wait for our call.")
-    }catch(err){
-        console.log(err)
+// const purchaseProduct=async(req,res)=>{
+//     try{
+//         const {userId,productId,quantity,pickupLocation}=req.body
+//         console.log(req.body)
+//         const productPurchased=new sellModel({
+//             userId,
+//             productId,
+//             quantity,
+//             pickuplocation:pickupLocation
+//         })
+//         await productPurchased.save()
+//         res.json("Product placed successfully wait for our call.")
+//     }catch(err){
+//         console.log(err)
+//     }
+// }
+const purchaseProduct = async (req, res) => {
+    try {
+      const { userId, productId, quantity, pickupLocation } = req.body;
+  
+      // Log the request body for debugging
+      console.log(req.body);
+  
+      // Find the product in the productModel by its productId
+      const product = await productModel.findById(productId);
+      console.log("Fetched Product: ", product);
+  
+      // Check if the product exists
+    //   if (!product) {
+    //     return res.status(404).json({ error: "Product not found" });
+    //   }
+      // Check if there's enough quantity available
+    //   if (product.quantity < quantity) {
+    //     return res.status(400).json({ error: "Insufficient stock available" });
+    //   }
+       
+      // Update the quantity of the product
+      product.quantity -= quantity;
+      console.log("Updated Product: ", product.quantity);
+     
+      // Save the updated product back to the database
+      await product.save();
+      console.log("Product saved successfully");
+  
+      // Create a new entry in the sellModel (purchase record)
+      const productPurchased = new sellModel({
+        userId,
+        productId,
+        quantity,
+        pickupLocation, // Corrected the typo from 'pickuplocation' to 'pickupLocation'
+      });
+  
+      // Save the purchase record
+      await productPurchased.save();
+      console.log("Purchase record saved");
+  
+      // Send a success response
+      res.json("Product placed successfully, please wait for our call.");
+    } catch (err) {
+      console.error("Error during purchase:", err);
+      res.status(500).json({ error: "An error occurred while processing the purchase" });
     }
-}
+  };
+  
 
 const viewplacedOrders=async(req,res)=>{
     try{
-        const orders=await sellModel.find().populate("userId")  
+        const orders=await sellModel.find().populate("userId") 
         .populate("productId"); 
         res.json(orders)
     }catch(err){
@@ -136,26 +186,51 @@ const deleteProduct=async(req,res)=>{
 
 const updateProduct = async (req, res) => {
     try {
-      const { productId, date, productCategory } = req.body;
+      // Destructure values from the request body
+      const { productId, date, productCategory, quantity } = req.body;
+      console.log(req.body);
   
-      if (!productId || !date || !productCategory) {
+      // Validate the required fields
+      if (!productId || !date || !productCategory || !quantity) {
         return res.status(400).json({ message: "All fields are required!" });
       }
   
+      // Prepare the update object
+      const updateData = {
+        date,
+        productCategory,
+        quantity
+      };
+  
+      // Use findByIdAndUpdate to update the product with the new data
       const updatedProduct = await productModel.findByIdAndUpdate(
-        productId,
-        { date, productCategory },
-        { new: true }
+        productId,   // the productId to find the product
+        updateData,   // the data to update the product
+        { new: true } // option to return the updated document
       );
   
+      // If product not found, return 404
       if (!updatedProduct) {
         return res.status(404).json({ message: "Product not found!" });
       }
   
+      // Return success response with the updated product data
       res.status(200).json({ message: "Product updated successfully!", updatedProduct });
+      
     } catch (err) {
       console.error("Error updating product:", err);
       res.status(500).json({ message: "Internal server error" });
     }
   };
-module.exports = { addproduct,viewProducts,viewProductsById,purchaseProduct,viewplacedOrders,updateStatus,updateProduct,deleteProduct,updatePayment}; 
+  
+  const deleteRetailproduct=async(req,res)=>{
+    try{
+      const id=req.headers.id
+      await retailproductModel.findByIdAndDelete({_id:id})
+      res.json("Delete Successfully")
+    }catch(err){
+        console.log(err)
+    }
+  }
+
+module.exports = { addproduct,viewProducts,viewProductsById,purchaseProduct,viewplacedOrders,updateStatus,updateProduct,deleteProduct,updatePayment,deleteRetailproduct}; 

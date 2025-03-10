@@ -12,7 +12,7 @@ import {
   useMediaQuery,
   ListItemButton,
   List,
-  Collapse
+  Collapse,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -20,9 +20,10 @@ import { useTheme } from "@mui/material/styles";
 import Profile from "./profile";
 import AddProductDetails from "./addproducts";
 import ViewOrders from "./vieworders";
-import OrderHistory from "./orderhistory";  // Importing the OrderHistory component
-import { Logout, Person, ShoppingCart, Store,HistoryEdu,ExpandMore, ExpandLess} from "@mui/icons-material";
+import OrderHistory from "./orderhistory"; // Importing the OrderHistory component
+import { Logout, Person, ShoppingCart, Store, ExpandMore, ExpandLess } from "@mui/icons-material";
 import RetailerViewproducts from "./addretailproduct";
+import ViewRetailOrders from "./viewRetailOrders";
 
 const drawerWidth = 240;
 
@@ -33,6 +34,7 @@ export default function WholesaleDashboard() {
   const [mobileOpen, setMobileOpen] = useState(false); // Mobile drawer state
   const [openProducts, setOpenProducts] = useState(false);
   const [openOrders, setOpenOrders] = useState(false);
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -42,57 +44,60 @@ export default function WholesaleDashboard() {
       <Toolbar />
       <Divider />
       <List>
-      {/* Products Dropdown */}
-      <ListItemButton onClick={() => setOpenProducts(!openProducts)}>
-        <Store sx={{ mr: 2 }} />
-        <ListItemText primary="Products" />
-        {openProducts ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={openProducts} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }} onClick={() => navigate("/wholesale/products")}>
-            <ListItemText primary="View Products" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }} onClick={() => navigate("/wholesale/addretail")}>
-            <ListItemText primary="Add Retailer" />
-          </ListItemButton>
-        </List>
-      </Collapse>
+        {/* Products Dropdown */}
+        <ListItemButton onClick={() => setOpenProducts(!openProducts)}>
+          <Store sx={{ mr: 2 }} />
+          <ListItemText primary="Products" />
+          {openProducts ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={openProducts} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton sx={{ pl: 4 }} onClick={() => navigate("/wholesale/products")}>
+              <ListItemText primary="View Products" />
+            </ListItemButton>
+            <ListItemButton sx={{ pl: 4 }} onClick={() => navigate("/wholesale/addretail")}>
+              <ListItemText primary="Add Retailer" />
+            </ListItemButton>
+          </List>
+        </Collapse>
 
-      {/* Orders Dropdown */}
-      <ListItemButton onClick={() => setOpenOrders(!openOrders)}>
-        <ShoppingCart sx={{ mr: 2 }} />
-        <ListItemText primary="Orders" />
-        {openOrders ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={openOrders} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }} onClick={() => navigate("/wholesale/vieworders")}>
-            <ListItemText primary="Farmer Selections" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }} onClick={() => navigate("/wholesale/order-history")}>
-            <ListItemText primary="Order History" />
-          </ListItemButton>
-        </List>
-      </Collapse>
+        {/* Orders Dropdown */}
+        <ListItemButton onClick={() => setOpenOrders(!openOrders)}>
+          <ShoppingCart sx={{ mr: 2 }} />
+          <ListItemText primary="Orders" />
+          {openOrders ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={openOrders} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton sx={{ pl: 4 }} onClick={() => navigate("/wholesale/vieworders")}>
+              <ListItemText primary="Farmer Selections" />
+            </ListItemButton>
+            <ListItemButton sx={{ pl: 4 }} onClick={() => navigate("/wholesale/order-history")}>
+              <ListItemText primary="Order History" />
+            </ListItemButton>
+            <ListItemButton sx={{ pl: 4 }} onClick={() => navigate("/wholesale/retail-orders")}>
+              <ListItemText primary="Retailer Orders" />
+            </ListItemButton>
+          </List>
+        </Collapse>
 
-      {/* Profile */}
-      <ListItemButton onClick={() => navigate("/wholesale/profile")}>
-        <Person sx={{ mr: 2 }} />
-        <ListItemText primary="Profile" />
-      </ListItemButton>
+        {/* Profile */}
+        <ListItemButton onClick={() => navigate("/wholesale/profile")}>
+          <Person sx={{ mr: 2 }} />
+          <ListItemText primary="Profile" />
+        </ListItemButton>
 
-      {/* Logout */}
-      <ListItemButton
-        onClick={() => {
-          navigate("/");
-          localStorage.clear();
-        }}
-      >
-        <Logout sx={{ mr: 2 }} />
-        <ListItemText primary="Logout" />
-      </ListItemButton>
-    </List>
+        {/* Logout */}
+        <ListItemButton
+          onClick={() => {
+            navigate("/");
+            localStorage.clear();
+          }}
+        >
+          <Logout sx={{ mr: 2 }} />
+          <ListItemText primary="Logout" />
+        </ListItemButton>
+      </List>
     </Box>
   );
 
@@ -109,7 +114,7 @@ export default function WholesaleDashboard() {
             </IconButton>
           )}
           <Typography variant="h6" noWrap component="div">
-            WholeSale Dashboard
+            Wholesale Dashboard
           </Typography>
         </Toolbar>
       </AppBar>
@@ -135,8 +140,9 @@ export default function WholesaleDashboard() {
           <Route path="products" element={<AddProductDetails />} />
           <Route path="vieworders" element={<ViewOrders />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="addretail" element={<RetailerViewproducts/>}/>
+          <Route path="addretail" element={<RetailerViewproducts />} />
           <Route path="order-history" element={<OrderHistory />} />
+          <Route path="retail-orders" element={<ViewRetailOrders />} />
         </Routes>
       </Box>
     </Box>

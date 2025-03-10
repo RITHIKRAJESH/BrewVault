@@ -6,14 +6,8 @@ import {Routes} from "react-router-dom";
 import { HistoryEdu, Logout, Payment, Person, ShoppingCart, Store } from "@mui/icons-material";
 import RetailerViewproducts from "./viewproducts";
 import RetailerProfile from "./profile";
-// const menuItems = [
-  
-//   { text: "View Products", path: "/retailer/viewproducts" },
-//   { text: "View Orders", path: "/retailer/vieworders" },
-//   { text: "Payments", path: "/retailer/payments" },
-//   { text: "Profile", path: "/retailer/profile" },
-//   {text:"Logout",path:"/",onclick:()=>localStorage.clear()}
-// ];
+import Cart from "./cart";
+import ViewOrders from "./viewOrders";
 
 export default function Retailerhome() {
   const [open, setOpen] = useState(false);
@@ -51,8 +45,7 @@ export default function Retailerhome() {
           [`& .MuiDrawer-paper`]: { width: 240, boxSizing: "border-box" },
           display: { xs: "block", sm: "none" }
         }}
-      >
-        
+      >      
       </Drawer>
       <Drawer
         variant="permanent"
@@ -68,15 +61,18 @@ export default function Retailerhome() {
         <ListItemButton onClick={() => navigate("/retailer/viewproducts")}> 
           <Store sx={{ mr: 2 }} /> <ListItemText primary="Products" />
         </ListItemButton>
+        <ListItemButton onClick={() => navigate("/retailer/cart")}> 
+          <ShoppingCart sx={{ mr: 2 }} /> <ListItemText primary="Cart" />
+        </ListItemButton>
         <ListItemButton onClick={() => navigate("/retailer/vieworders")}> 
           <ShoppingCart sx={{ mr: 2 }} /> <ListItemText primary="Orders" />
         </ListItemButton>
-        <ListItemButton onClick={() => navigate("/retailer/order-history")}> 
+        {/* <ListItemButton onClick={() => navigate("/retailer/order-history")}> 
           <HistoryEdu sx={{ mr: 2 }} /> <ListItemText primary="Order History" />
-        </ListItemButton>
-        <ListItemButton onClick={() => navigate("/retailer/payments")}> 
+        </ListItemButton> */}
+        {/* <ListItemButton onClick={() => navigate("/retailer/payments")}> 
           <Payment sx={{ mr: 2 }} /> <ListItemText primary="Payment" />
-        </ListItemButton>
+        </ListItemButton> */}
         <ListItemButton onClick={() => navigate("/retailer/profile")}> 
           <Person sx={{ mr: 2 }} /> <ListItemText primary="Profile" />
         </ListItemButton>
@@ -94,6 +90,8 @@ export default function Retailerhome() {
         <Routes>
           <Route path="/viewproducts" element={<RetailerViewproducts />} />
           <Route path="/profile" element={<RetailerProfile/>} />
+          <Route path="/cart" element={<Cart/>}/>
+          <Route path="/vieworders" element={<ViewOrders/>}/>
           </Routes>
         <Outlet />
       </Box>

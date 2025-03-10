@@ -9,7 +9,8 @@ const UserForm = () => {
     email: "",
     password: "",
     role: "",
-    shopOrFarmName: "", 
+    shopOrFarmName: "",
+    mobile: "", // Added mobile field
   });
   
   const [errors, setErrors] = useState({});
@@ -25,6 +26,7 @@ const UserForm = () => {
     tempErrors.email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) ? "" : "Valid email is required";
     tempErrors.password = formData.password.length >= 6 ? "" : "Password must be at least 6 characters";
     tempErrors.role = formData.role ? "" : "User type is required";
+    tempErrors.mobile = /^\d{10}$/.test(formData.mobile) ? "" : "Mobile number must be 10 digits"; // Mobile validation
     if (formData.role) {
       tempErrors.shopOrFarmName = formData.shopOrFarmName ? "" : formData.role === "farmer" ? "Farm Name is required" : "Shop Name is required";
     }
@@ -90,6 +92,17 @@ const UserForm = () => {
             margin="normal"
             error={!!errors.password}
             helperText={errors.password}
+          />
+          <TextField
+            fullWidth
+            label="Mobile"
+            name="mobile"
+            type="text"
+            value={formData.mobile}
+            onChange={handleChange}
+            margin="normal"
+            error={!!errors.mobile}
+            helperText={errors.mobile}
           />
           <FormControl fullWidth margin="normal" error={!!errors.role}>
             <InputLabel>User Type</InputLabel>

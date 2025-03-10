@@ -9,20 +9,21 @@ import { jwtDecode } from "jwt-decode";
 
 export default function RetailerViewProducts() {
   const [openForm, setOpenForm] = useState(false);
-  const token = jwtDecode(localStorage.getItem("token"));
+  const [openEditForm, setOpenEditForm] = useState(false);
   const [product, setProduct] = useState({
     productName: "",
     productImage: null,
     quantity: "",
     rate: "",
   });
-
+  const [editProduct, setEditProduct] = useState(null);
+  const token = jwtDecode(localStorage.getItem("token"));
   const [record, setRecord] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_BASE_URL}/retailer/viewproducts`, { headers: { userid: token.payload._id } })
       .then((res) => {
-        console.log(res.data);
         setRecord(res.data);
       }).catch((err) => console.log(err));
   }, []);
@@ -35,8 +36,37 @@ export default function RetailerViewProducts() {
     setProduct({ ...product, productImage: e.target.files[0] });
   };
 
+  const handleEditChange = (e) => {
+    setEditProduct({ ...editProduct, [e.target.name]: e.target.value });
+  };
+
+  // Validation function
+  const validateForm = () => {
+    if (!product.productName || !product.productImage || !product.quantity || !product.rate) {
+      setErrorMessage("All fields are required.");
+      return false;
+    }
+
+    if (isNaN(product.quantity) || product.quantity <= 0) {
+      setErrorMessage("Quantity must be a positive number.");
+      return false;
+    }
+
+    if (isNaN(product.rate) || product.rate <= 0) {
+      setErrorMessage("Rate must be a positive number.");
+      return false;
+    }
+
+    setErrorMessage(""); // Clear any previous error
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate the form fields before submission
+    if (!validateForm()) return;
+
     const formData = new FormData();
     formData.append("productName", product.productName);
     formData.append("productImage", product.productImage);
@@ -57,11 +87,53 @@ export default function RetailerViewProducts() {
     setProduct({ productName: "", productImage: null, quantity: "", rate: "" });
   };
 
-  const handleUpdateQuantity = (productId, newQty) => {
-    axios.put(`${import.meta.env.VITE_BASE_URL}/retailer/updateproduct`, { productId, quantity: newQty })
+  // const handleUpdateQuantity = (productId, newQty) => {
+  //   axios.put(`${import.meta.env.VITE_BASE_URL}/wholesaler/updateproduct`, { productId, quantity: newQty })
+  //     .then((res) => {
+  //       alert("Quantity updated successfully!");
+  //       setRecord(record.map(item => item._id === productId ? { ...item, quantity: newQty } : item));
+  //     })
+  //     .catch((err) => console.error(err));
+  // };
+
+  const handleDeleteProduct = (productId) => {
+    axios.delete(`${import.meta.env.VITE_BASE_URL}/wholesale/deleteretailproduct`,{headers:{id:productId}})
       .then((res) => {
-        alert("Quantity updated successfully!");
-        setRecord(record.map(item => item._id === productId ? { ...item, quantity: newQty } : item));
+        alert(res.data);
+        setRecord(record.filter((item) => item._id !== productId)); // Remove from UI after deletion
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const handleEditProduct = (product) => {
+    setEditProduct(product);
+    setOpenEditForm(true);
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!editProduct.productName || !editProduct.quantity || !editProduct.rate) {
+      setErrorMessage("All fields are required.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("productName", editProduct.productName);
+    if (editProduct.productImage) {
+      formData.append("productImage", editProduct.productImage);
+    }
+    formData.append("quantity", editProduct.quantity);
+    formData.append("rate", editProduct.rate);
+    formData.append("userid", token.payload._id);
+
+    axios.put(`${import.meta.env.VITE_BASE_URL}/retailer/updateproduct`, formData, {
+      headers: { "Content-Type": "multipart/form-data" ,id:editProduct._id},
+    })
+      .then((res) => {
+        alert(res.data.message);
+        setRecord(record.map(item => item._id === editProduct._id ? { ...item, ...editProduct } : item));
+        setOpenEditForm(false);
       })
       .catch((err) => console.error(err));
   };
@@ -80,7 +152,7 @@ export default function RetailerViewProducts() {
                 <TableCell><strong>Quantity</strong></TableCell>
                 <TableCell><strong>Rate (₹)</strong></TableCell>
                 <TableCell><strong>Status</strong></TableCell>
-                <TableCell><strong>Update Qty</strong></TableCell>
+                <TableCell><strong>Actions</strong></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -102,15 +174,11 @@ export default function RetailerViewProducts() {
                     )}
                   </TableCell>
                   <TableCell>
-                    <TextField
-                      type="number"
-                      size="small"
-                      variant="outlined"
-                      defaultValue={product.quantity}
-                      onChange={(e) => setProduct({ ...product, quantity: e.target.value })}
-                    />
-                    <Button variant="contained" color="primary" sx={{ ml: 1 }} onClick={() => handleUpdateQuantity(product._id, product.quantity)}>
-                      Update
+                    <Button variant="contained" color="primary" onClick={() => handleEditProduct(product)}>
+                      Edit
+                    </Button>
+                    <Button variant="contained" color="error" sx={{ ml: 2 }} onClick={() => handleDeleteProduct(product._id)}>
+                      Delete
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -135,6 +203,9 @@ export default function RetailerViewProducts() {
       <Dialog open={openForm} onClose={() => setOpenForm(false)}>
         <DialogTitle>Add a New Product</DialogTitle>
         <DialogContent>
+          {/* Display error message */}
+          {errorMessage && <Typography color="error" sx={{ mb: 2 }}>{errorMessage}</Typography>}
+
           <TextField
             fullWidth
             label="Product Name"
@@ -166,6 +237,47 @@ export default function RetailerViewProducts() {
         <DialogActions>
           <Button onClick={() => setOpenForm(false)} color="secondary">Cancel</Button>
           <Button onClick={handleSubmit} variant="contained" color="primary">Add Product</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Dialog Form to Edit Product */}
+      <Dialog open={openEditForm} onClose={() => setOpenEditForm(false)}>
+        <DialogTitle>Edit Product</DialogTitle>
+        <DialogContent>
+          {/* Display error message */}
+          {errorMessage && <Typography color="error" sx={{ mb: 2 }}>{errorMessage}</Typography>}
+
+          <TextField
+            fullWidth
+            label="Product Name"
+            name="productName"
+            value={editProduct?.productName || ""}
+            onChange={handleEditChange}
+            sx={{ mb: 2 }}
+          />
+          <input type="file" accept="image/*" onChange={e => setEditProduct({ ...editProduct, productImage: e.target.files[0] })} style={{ marginBottom: "16px" }} />
+          <TextField
+            fullWidth
+            label="Quantity"
+            name="quantity"
+            type="number"
+            value={editProduct?.quantity || ""}
+            onChange={handleEditChange}
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            fullWidth
+            label="Rate"
+            name="rate"
+            type="number"
+            value={editProduct?.rate || ""}
+            onChange={handleEditChange}
+            sx={{ mb: 2 }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenEditForm(false)} color="secondary">Cancel</Button>
+          <Button onClick={handleEditSubmit} variant="contained" color="primary">Update Product</Button>
         </DialogActions>
       </Dialog>
     </Container>

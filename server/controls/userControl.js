@@ -5,7 +5,7 @@ const sellModel=require('../models/productModel');
 const contactModel = require('../models/contactModel');
 const registerUser = async (req, res) => {
     try {
-        const { username, email, password, role, shopOrFarmName } = req.body;
+        const { username, email, password, role, shopOrFarmName,mobile } = req.body;
 
         // Check if user already exists
         const existingUser = await userModel.findOne({ email });
@@ -22,7 +22,8 @@ const registerUser = async (req, res) => {
             email,
             password: hashedPassword,
             role,
-            shopOrFarmName
+            shopOrFarmName,
+            mobile
         });
        
         await newUser.save();

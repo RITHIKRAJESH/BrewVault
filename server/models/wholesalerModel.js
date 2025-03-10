@@ -11,6 +11,7 @@ const productSchema = new mongoose.Schema({
         }
     ],
     date: { type: String, required: true },
+    quantity:{type:String}
 }, { timestamps: true });
 
 const productModel = mongoose.model("product_tbl", productSchema);

@@ -29,6 +29,8 @@ import ViewProducts from "./viewproducts";
 import ViewTips from "./tips";
 import ViewOrderedProducts from "./myproduct";
 import Orderhistory from "./orderhistory";
+import { ProductionQuantityLimits } from "@mui/icons-material";
+import AddProductDetails from "./addproducts";
 
 const drawerWidth = 240;
 
@@ -48,10 +50,10 @@ export default function FarmerDashboard() {
   };
   
   const menuItems = [
-    { text: "View Market", path: "/farmer/market", icon: <StorefrontIcon /> },
-    { text: "My Products", path: "/farmer/my-products", icon: <ShoppingCartIcon /> },
+    { text: "Products", path: "/farmer", icon: <StorefrontIcon /> },
+    { text: "Orders", path: "/farmer/my-products", icon: <ShoppingCartIcon /> },
     { text: "Order History", path: "/farmer/order-history", icon: <HistoryIcon /> },
-    // { text: "Payments", path: "/payments", icon: <PaymentIcon /> },
+    { text: "Add Product", path: "/farmer/addproduct", icon: <ProductionQuantityLimits /> },
     { text: "Tips", path: "/farmer/viewtips", icon: <TipsAndUpdatesIcon /> },
     { text: "Profile", path: "/farmer/profile", icon: <AccountCircleIcon /> },
     { text: "Logout", path: "/", icon: <ExitToAppIcon />, onClick: handleLogout },
@@ -108,9 +110,9 @@ export default function FarmerDashboard() {
       {/* Main Content */}
       <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
         <Routes>
-        <Route path="/" element={<ViewProducts/>}/>
+        <Route path="/" element={<AddProductDetails/>}/>
         <Route path="/profile" element={<Profile />} />
-        <Route path="/market" element={<ViewProducts />} />
+        <Route path="/addproduct" element={<AddProductDetails />} />
         <Route path="/viewtips" element={<ViewTips />} />
         <Route path="/my-products" element={<ViewOrderedProducts />} />
         <Route path="/order-history" element={<Orderhistory />} />
