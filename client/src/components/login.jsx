@@ -50,7 +50,7 @@ const LoginForm = () => {
           const decoded = jwtDecode(token);
           localStorage.setItem("token", token);
           localStorage.setItem("userId",decoded.payload._id)
-          if (decoded.payload.role === "farmer" && res.data.status === 200) {
+          if (decoded.payload.role === "farmer" && res.data.status === 200 && decoded.payload.status=="approved") {
             navigate("/farmer");
           } else if (res.data.status === 200 && decoded.payload.role === "admin") {
             navigate("/admin");

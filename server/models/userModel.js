@@ -10,9 +10,9 @@ const userSchema=new mongoose.Schema({
     mobile:{type:String},
     accountno:{type:String},
     ifsc:{type:String}, 
+    status:{type:String}
 },{timestamps:true})
 
 
 const userModel=new mongoose.model("user_tbl",userSchema)
-
 module.exports=userModel

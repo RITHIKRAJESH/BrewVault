@@ -25,7 +25,8 @@ const registerUser = async (req, res) => {
             password: hashedPassword,
             role,
             shopOrFarmName,
-            mobile
+            mobile,
+            status:"pending"
         });
        
         await newUser.save();
@@ -36,6 +37,19 @@ const registerUser = async (req, res) => {
         return res.status(500).json({ msg: "Server Error", status: 500 });
     }
 };
+
+const updateStatus=async(req,res)=>{
+  try{
+    const id=req.headers.id
+    console.log(id)
+    const user=await userModel.findById({_id:id})
+    user.status="approved"
+    user.save()
+    res.json("Updated Successfully")
+  }catch(err){
+    console.log(err)
+  }
+}
 
 
 const login = async (req, res) => {
@@ -100,7 +114,7 @@ const forgetPassword = async (req, res) => {
   
       // Step 4: Send the OTP to the user's email
       const mailOptions = {
-        from: "",
+        from: "rajeshrithik49@gmail.com",
         to: user.email,
         subject: "Password Reset OTP",
         html: `
@@ -232,4 +246,4 @@ const addContact=async(req,res)=>{
         res.json(err)
 }};
 
-module.exports={registerUser,login,userProfile,viewplacedOrders,addContact,updateProfile,forgetPassword,verifyOTP,updatePassword}
+module.exports={registerUser,login,userProfile,viewplacedOrders,addContact,updateProfile,forgetPassword,verifyOTP,updatePassword,updateStatus}

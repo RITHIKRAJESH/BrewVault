@@ -1,5 +1,5 @@
 const express=require('express')
-const { registerUser, login, userProfile, viewplacedOrders, addContact, updateProfile, forgetPassword, verifyOTP, updatePassword } = require('../controls/userControl')
+const { registerUser, login, userProfile, viewplacedOrders, addContact, updateProfile, forgetPassword, verifyOTP, updatePassword, updateStatus } = require('../controls/userControl')
 const userRouter=express.Router()
 
 
@@ -12,4 +12,7 @@ userRouter.route("/update").put(updateProfile)
 userRouter.route("/forgot-password").post(forgetPassword)
 userRouter.route("/verify-otp").post(verifyOTP)
 userRouter.route("/update-password").put(updatePassword)
+userRouter.route("/update-status").put(updateStatus)
+
+
 module.exports=userRouter

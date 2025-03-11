@@ -118,8 +118,8 @@ const sentResponse = async (req, res) => {
         let transporter = nodemailer.createTransport({
             service: 'gmail', 
             auth: {
-                user: 'rajeshrithik49@gmail.com', 
-                pass: process.env.App_Key, 
+                user: '', 
+                pass: '', 
             },
         });
         const updatedMessage= await contactModel.findOneAndUpdate({
@@ -129,7 +129,7 @@ const sentResponse = async (req, res) => {
         });
         await updatedMessage.save();
         const mailOptions = {
-            from: 'rajeshrithik49@gmail.com', 
+            from: '', 
             to: email, 
             subject: 'Response from BrewVault',
             text: message, 

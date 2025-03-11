@@ -33,12 +33,28 @@ export default function AdminViewUsers() {
     setPage(0);
   };
 
-  const handleDelete=(id)=>{
+  const handleApprove = (id) => {
     const url = import.meta.env.VITE_BASE_URL;
-    axios.delete(`${url}/admin/deleteuser`,{headers:{_id:id}})
-    .then((res)=>alert(res.data))
-    .catch((err)=>console.log(err))
-  }
+    axios
+      .put(`${url}/user/update-status`,{},{headers:{ id: id }})  
+      .then((response) => {
+        alert(response.data); 
+        setUsers(users.map((user) => (user._id === id ? { ...user, status: "approved" } : user)));
+      })
+      .catch((error) => {
+        console.error("Error updating user status:", error);
+        alert("Error updating user status.");
+      });
+  };
+
+  const handleDelete = (id) => {
+    const url = import.meta.env.VITE_BASE_URL;
+    axios
+      .delete(`${url}/admin/deleteuser`, { headers: { _id: id } })
+      .then((res) => alert(res.data))
+      .catch((err) => console.log(err));
+  };
+
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" sx={{ mb: 3 }}>
@@ -58,20 +74,27 @@ export default function AdminViewUsers() {
                   <TableCell><strong>Email</strong></TableCell>
                   <TableCell><strong>Role</strong></TableCell>
                   <TableCell><strong>Farm/Shop Name</strong></TableCell>
+                  <TableCell><strong>Status</strong></TableCell>  {/* Added Status Column */}
                   <TableCell><strong>Action</strong></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{user._id}</TableCell>
-                    <TableCell>{user.username}</TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>{user.role}</TableCell>
-                    <TableCell>{user.shopOrFarmName}</TableCell>
-                    <TableCell><Button onClick={()=>handleDelete(user._id)}>Delete</Button></TableCell>
-                  </TableRow>
-                ))}
+                {users
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((user, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{user._id}</TableCell>
+                      <TableCell>{user.username}</TableCell>
+                      <TableCell>{user.email}</TableCell>
+                      <TableCell>{user.role}</TableCell>
+                      <TableCell>{user.shopOrFarmName}</TableCell>
+                      <TableCell>{user.status || "Pending"}</TableCell> {/* Display status */}
+                      <TableCell>
+                        <Button onClick={() => handleApprove(user._id)}>Approve</Button> {/* Approve Button */}
+                        <Button onClick={() => handleDelete(user._id)}>Delete</Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>
