@@ -2,7 +2,7 @@ import { useState } from "react";
 import { TextField, Button, Container, Typography, Box, Select, MenuItem, InputLabel, FormControl, FormHelperText } from "@mui/material";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-
+import img1 from '../assets/registration.webp'
 const UserForm = () => {
   const [formData, setFormData] = useState({
     username: "",
@@ -61,8 +61,22 @@ const UserForm = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ mt: 5, p: 3, boxShadow: 3, borderRadius: 2 }}>
+    <div style={{ backgroundImage: 'linear-gradient(to right,rgb(142, 151, 147),rgb(155, 160, 156))' }}>
+    <Container maxWidth="sm" sx={{
+      backgroundImage: `url(${img1})`, 
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      minHeight: '100vh',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 0
+    }}>
+      <Box sx={{
+        mt: 5, p: 3, boxShadow: 3, borderRadius: 2, 
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',  // semi-transparent white
+        width: '100%', maxWidth: 500
+      }}>
         <Typography variant="h5" gutterBottom>
           User Registration
         </Typography>
@@ -158,6 +172,7 @@ const UserForm = () => {
         </form>
       </Box>
     </Container>
+    </div>
   );
 };
 

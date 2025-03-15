@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Row, Col, Card, Button, Modal, Form, Alert } from "react-bootstrap";
-
+import { DeleteOutline } from '@mui/icons-material'
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [error, setError] = useState("");
@@ -69,6 +69,14 @@ export default function Cart() {
       return item;
     });
     setCartItems(updatedCart);
+  
+    // Recalculate total amount after updating quantity
+    const total = updatedCart.reduce(
+      (acc, item) => acc + item.productId.rate * item.quantity,
+      0
+    );
+    setTotalAmount(total);
+  
     axios
       .put(`${import.meta.env.VITE_BASE_URL}/retailer/incrementQuantity`, {
         itemId: itemId,
@@ -90,7 +98,7 @@ export default function Cart() {
         setCartItems(revertedCart);
       });
   };
-
+  
   const decrementQuantity = (itemId) => {
     const updatedCart = cartItems.map((item) => {
       if (item._id === itemId && item.quantity > 1) {
@@ -99,6 +107,14 @@ export default function Cart() {
       return item;
     });
     setCartItems(updatedCart);
+  
+    // Recalculate total amount after updating quantity
+    const total = updatedCart.reduce(
+      (acc, item) => acc + item.productId.rate * item.quantity,
+      0
+    );
+    setTotalAmount(total);
+  
     axios
       .put(
         `${import.meta.env.VITE_BASE_URL}/retailer/decrementQuantity`,
@@ -116,7 +132,7 @@ export default function Cart() {
         setError("Error updating quantity.");
       });
   };
-
+  
   const handleBuy = () => {
     setShowPopup(true);
   };
@@ -210,28 +226,31 @@ export default function Cart() {
                     Price: ₹{item.productId.rate}
                   </Card.Text>
                   <Button
-                    variant="warning"
+                    variant="success"
                     onClick={() => incrementQuantity(item._id)}
                   >
                     +
                   </Button>
                   <Button
-                    variant="warning"
+                    variant="success"
                     onClick={() => decrementQuantity(item._id)}
                     disabled={item.quantity === 1}
                   >
                     -
                   </Button>
                   <Button variant="danger" onClick={() => handleRemove(item._id)}>
-                    Remove
+                  <DeleteOutline/>
                   </Button>
                 </Card.Body>
               </Card>
+
             </Col>
           ))}
         </Row>
       )}
-
+         <Card.Text>
+                  <strong>Total Amount: ₹{totalAmount}</strong>
+                </Card.Text>
       <Button variant="primary" onClick={handleBuy}>
         Proceed to Buy
       </Button>

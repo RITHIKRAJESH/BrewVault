@@ -194,8 +194,10 @@ export default function AddProductDetails() {
               <CardContent>
                 <Typography variant="h6">{prod.productName}</Typography>
                 <Typography variant="body2" color="textSecondary">Date: {prod.date}</Typography>
-                <Typography variant="body2" color="textSecondary">Quantity: {prod.quantity}</Typography>
-                <Typography variant="body2" color="textSecondary">Categories:</Typography>
+                <Typography variant="body2" color="textSecondary">
+  {prod.quantity == 0 ? "Out of Stock" : `Quantity: ${prod.quantity}`}
+</Typography>
+      <Typography variant="body2" color="textSecondary">Categories:</Typography>
                 {prod.productCategory.map((cat, index) => (
                   <Typography key={index} variant="body2">
                     {cat.quality} - Rs.{cat.price}

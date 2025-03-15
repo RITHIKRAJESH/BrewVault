@@ -3,6 +3,7 @@ import { TextField, Button, Container, Typography, Box, Link } from "@mui/materi
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import img1 from '../assets/login.jpg'
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -116,8 +117,17 @@ const LoginForm = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ mt: 5, p: 3, boxShadow: 3, borderRadius: 2 }}>
+    <div style={{ backgroundImage: 'linear-gradient(to right,rgb(142, 151, 147),rgb(155, 160, 156))',height:"100vH" }}>
+    <Container maxWidth="sm" sx={{
+          backgroundImage: `url(${img1})`, 
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          minHeight: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: 0}}>
+      <Box sx={{ mt: 5, p: 3, boxShadow: 3, borderRadius: 2 , backgroundColor: 'rgba(255, 255, 255, 0.8)'}}>
         <Typography variant="h5" gutterBottom>
           User Login
         </Typography>
@@ -218,6 +228,7 @@ const LoginForm = () => {
         )}
       </Box>
     </Container>
+    </div>
   );
 };
 

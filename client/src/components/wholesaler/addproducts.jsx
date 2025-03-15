@@ -426,8 +426,8 @@ export default function AddProductDetails() {
                     Date: {product.date}
                   </Typography>
                   <Typography variant="body2" color="textSecondary">
-                    Available Quantity: {product.quantity}
-                  </Typography>
+  {product.quantity == 0 ? "Out of Stock" : `Quantity: ${product.quantity}`}
+</Typography>
 
                   {/* Quantity Input */}
                   <TextField
